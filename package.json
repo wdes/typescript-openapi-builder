@@ -10,5 +10,8 @@
         "url": "https://william.wdes.fr"
     },
     "license": "MPL-2.0",
-    "private": false
+    "private": false,
+    "dependencies": {
+        "lodash": "^4.17.15"
+    }
 }
