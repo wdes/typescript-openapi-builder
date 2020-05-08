@@ -13,10 +13,16 @@ export interface ControllerMethod {
     name: string;
     decorators: BuiltDecorator[];
 }
+export interface ControllerClass {
+    name: string;
+    methods: ControllerMethod[];
+    decorators: BuiltDecorator[];
+}
 
 export interface FileMetadata {
     fileName: string;
     methods: ControllerMethod[];
+    controllers: ControllerClass[];
 }
 
 export default class Builders {
@@ -30,8 +36,9 @@ export default class Builders {
                     const identifier = call.expression as ts.Identifier;
                     theDecorator.name = identifier.text;
                 }
-                if (call.arguments.length > 0) {
-                    theDecorator.properties = this.extractObject(call);
+                const props = this.extractObject(call);
+                if (Object.keys(props).length > 0) {
+                    theDecorator.properties = props;
                 }
             }
             builtDecorators.push(theDecorator);
@@ -89,16 +96,38 @@ export default class Builders {
             const fileMeta: FileMetadata = {
                 fileName: fileToScan,
                 methods: [],
+                controllers: [],
             };
-            const visitNode = (node: ts.Node): ts.Node => {
+            const visitNode = (node: ts.Node, controllerArg?: ControllerClass): ts.Node => {
+                if (ts.isClassDeclaration(node)) {
+                    let controller: ControllerClass = {
+                        name: ((node as ts.ClassDeclaration).name as ts.Identifier).text,
+                        methods: [],
+                        decorators: Builders.getDecorators(node),
+                    };
+                    fileMeta.controllers.push(controller);
+                    return ts.visitEachChild(node, (node) => visitNode(node, controller), context);
+                }
                 if (ts.isMethodDeclaration(node)) {
                     let method: ControllerMethod = {
                         name: ((node as ts.MethodDeclaration).name as ts.Identifier).text,
                         decorators: Builders.getDecorators(node),
                     };
+                    if (controllerArg) {
+                        controllerArg.methods.push(method);
+                    } else {
+                        // Never happens, I hope so
+                        fileMeta.methods.push(method);
+                    }
+                }
+                if (ts.isFunctionDeclaration(node)) {
+                    let method: ControllerMethod = {
+                        name: ((node as ts.FunctionDeclaration).name as ts.Identifier).text,
+                        decorators: Builders.getDecorators(node),
+                    };
                     fileMeta.methods.push(method);
                 }
-                return ts.visitEachChild(node, visitNode, context);
+                return ts.visitEachChild(node, (node) => visitNode(node), context);
             };
             ts.visitNode(sourceFile, visitNode);
             analysedFiles.push(fileMeta);
