@@ -4,7 +4,6 @@
  * @licence https://opensource.org/licenses/MIT
  * @source https://github.com/nestjs/swagger/tree/4.5.5
  */
-import { Type } from '@nestjs/common';
 import { HttpStatus } from '@nestjs/common/enums/http-status.enum';
 import { omit } from 'lodash';
 import { DECORATORS } from '../constants';
@@ -17,7 +16,7 @@ import { getTypeIsArrayTuple } from './helpers';
 export interface ApiResponseMetadata
   extends Omit<ResponseObject, 'description'> {
   status?: number | 'default';
-  type?: Type<unknown> | Function | [Function] | string;
+  type?: Function | [Function] | string;
   isArray?: boolean;
   description?: string;
 }

@@ -4,7 +4,6 @@
  * @licence https://opensource.org/licenses/MIT
  * @source https://github.com/nestjs/swagger/tree/4.5.5
  */
-import { Type } from '@nestjs/common';
 import { isNil, omit } from 'lodash';
 import {
   ParameterObject,
@@ -22,7 +21,7 @@ import { createParamDecorator, getTypeIsArrayTuple } from './helpers';
 type ParameterOptions = Omit<ParameterObject, 'in' | 'schema'>;
 
 interface ApiQueryMetadata extends ParameterOptions {
-  type?: Type<unknown> | Function | [Function] | string;
+  type?: Function | [Function] | string;
   isArray?: boolean;
   enum?: SwaggerEnumType;
   enumName?: string;
