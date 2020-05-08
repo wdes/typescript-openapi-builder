@@ -1,0 +1,14 @@
+{
+    "name": "typescript-openapi-builder",
+    "version": "0.0.1",
+    "description": "Generate OpenAPI spec using TypeScript annotations",
+    "main": "index.ts",
+    "repository": "https://github.com/wdes/typescript-openapi-builder.git",
+    "author": {
+        "name": "William Desportes",
+        "email": "williamdes@wdes.fr",
+        "url": "https://william.wdes.fr"
+    },
+    "license": "MPL-2.0",
+    "private": false
+}
