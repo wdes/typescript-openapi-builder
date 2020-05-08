@@ -18,5 +18,5 @@ export const DECORATORS = {
     API_SECURITY: `${DECORATORS_PREFIX}/apiSecurity`,
     API_EXCLUDE_ENDPOINT: `${DECORATORS_PREFIX}/apiExcludeEndpoint`,
     API_EXTRA_MODELS: `${DECORATORS_PREFIX}/apiExtraModels`,
-    API_EXTENSION: `${DECORATORS_PREFIX}/apiExtension`
+    API_EXTENSION: `${DECORATORS_PREFIX}/apiExtension`,
 };

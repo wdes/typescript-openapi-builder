@@ -5,8 +5,8 @@
  * @source https://github.com/nestjs/swagger/tree/4.5.5
  */
 export interface DenormalizedDocResolvers {
-  root: Function[];
-  security: Function[];
-  tags: Function[];
-  responses: Function[];
+    root: Function[];
+    security: Function[];
+    tags: Function[];
+    responses: Function[];
 }

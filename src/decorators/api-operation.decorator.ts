@@ -12,18 +12,18 @@ import { createMethodDecorator } from './helpers';
 export type ApiOperationOptions = Partial<OperationObject>;
 
 const defaultOperationOptions: ApiOperationOptions = {
-  summary: ''
+    summary: '',
 };
 
 export function ApiOperation(options: ApiOperationOptions): MethodDecorator {
-  return createMethodDecorator(
-    DECORATORS.API_OPERATION,
-    pickBy(
-      {
-        ...defaultOperationOptions,
-        ...options
-      } as ApiOperationOptions,
-      negate(isUndefined)
-    )
-  );
+    return createMethodDecorator(
+        DECORATORS.API_OPERATION,
+        pickBy(
+            {
+                ...defaultOperationOptions,
+                ...options,
+            } as ApiOperationOptions,
+            negate(isUndefined)
+        )
+    );
 }

@@ -25,10 +25,7 @@ export function getEnumValues(enumType: SwaggerEnumType): string[] | number[] {
     for (const key in enumType) {
         const value = enumType[key];
         // filter out cases where enum key also becomes its value (A: B, B: A)
-        if (
-            !uniqueValues.hasOwnProperty(value) &&
-            !uniqueValues.hasOwnProperty(key)
-        ) {
+        if (!uniqueValues.hasOwnProperty(value) && !uniqueValues.hasOwnProperty(key)) {
             values.push(value);
             uniqueValues[value] = value;
         }
@@ -53,7 +50,7 @@ export function addEnumArraySchema(
     const enumValues = getEnumValues(decoratorOptions.enum);
     paramSchema.items = {
         type: getEnumType(enumValues),
-        enum: enumValues
+        enum: enumValues,
     };
 
     if (decoratorOptions.enumName) {
@@ -77,13 +74,10 @@ export function addEnumSchema(
     }
 }
 
-export const isEnumArray = <T extends Partial<Record<'isArray' | 'enum', any>>>(
-    obj: Record<string, any>
-): obj is T => obj.isArray && obj.enum;
+export const isEnumArray = <T extends Partial<Record<'isArray' | 'enum', any>>>(obj: Record<string, any>): obj is T =>
+    obj.isArray && obj.enum;
 
-export const isEnumDefined = <T extends Partial<Record<'enum', any>>>(
-    obj: Record<string, any>
-): obj is T => obj.enum;
+export const isEnumDefined = <T extends Partial<Record<'enum', any>>>(obj: Record<string, any>): obj is T => obj.enum;
 
 export const isEnumMetadata = (metadata: SchemaObjectMetadata) =>
     metadata.enum || (metadata.isArray && 'enum' in metadata.items);

@@ -6,11 +6,7 @@
  */
 import 'reflect-metadata';
 
-export function extendMetadata<T extends Record<string, any>[] = any[]>(
-    metadata: T,
-    metakey: string,
-    target: object
-) {
+export function extendMetadata<T extends Record<string, any>[] = any[]>(metadata: T, metakey: string, target: object) {
     const existingMetadata = Reflect.getMetadata(metakey, target);
     if (!existingMetadata) {
         return metadata;

@@ -5,58 +5,47 @@
  * @source https://github.com/nestjs/swagger/tree/4.5.5
  */
 import { isNil, omit } from 'lodash';
-import {
-  ParameterObject,
-  SchemaObject
-} from '../interfaces/open-api-spec.interface';
+import { ParameterObject, SchemaObject } from '../interfaces/open-api-spec.interface';
 import { SwaggerEnumType } from '../types/swagger-enum.type';
-import {
-  addEnumArraySchema,
-  addEnumSchema,
-  isEnumArray,
-  isEnumDefined
-} from '../utils/enum.utils';
+import { addEnumArraySchema, addEnumSchema, isEnumArray, isEnumDefined } from '../utils/enum.utils';
 import { createParamDecorator, getTypeIsArrayTuple } from './helpers';
 
 type ParameterOptions = Omit<ParameterObject, 'in' | 'schema'>;
 
 interface ApiQueryMetadata extends ParameterOptions {
-  type?: Function | [Function] | string;
-  isArray?: boolean;
-  enum?: SwaggerEnumType;
-  enumName?: string;
+    type?: Function | [Function] | string;
+    isArray?: boolean;
+    enum?: SwaggerEnumType;
+    enumName?: string;
 }
 
 interface ApiQuerySchemaHost extends ParameterOptions {
-  schema: SchemaObject;
+    schema: SchemaObject;
 }
 
 export type ApiQueryOptions = ApiQueryMetadata | ApiQuerySchemaHost;
 
 const defaultQueryOptions: ApiQueryOptions = {
-  name: '',
-  required: true
+    name: '',
+    required: true,
 };
 
 export function ApiQuery(options: ApiQueryOptions): MethodDecorator {
-  const apiQueryMetadata = options as ApiQueryMetadata;
-  const [type, isArray] = getTypeIsArrayTuple(
-    apiQueryMetadata.type,
-    apiQueryMetadata.isArray
-  );
-  const param: ApiQueryMetadata & Record<string, any> = {
-    name: isNil(options.name) ? defaultQueryOptions.name : options.name,
-    in: 'query',
-    ...omit(options, 'enum'),
-    type,
-    isArray
-  };
+    const apiQueryMetadata = options as ApiQueryMetadata;
+    const [type, isArray] = getTypeIsArrayTuple(apiQueryMetadata.type, apiQueryMetadata.isArray);
+    const param: ApiQueryMetadata & Record<string, any> = {
+        name: isNil(options.name) ? defaultQueryOptions.name : options.name,
+        in: 'query',
+        ...omit(options, 'enum'),
+        type,
+        isArray,
+    };
 
-  if (isEnumArray(options)) {
-    addEnumArraySchema(param, options);
-  } else if (isEnumDefined(options)) {
-    addEnumSchema(param, options);
-  }
+    if (isEnumArray(options)) {
+        addEnumArraySchema(param, options);
+    } else if (isEnumDefined(options)) {
+        addEnumSchema(param, options);
+    }
 
-  return createParamDecorator(param, defaultQueryOptions);
+    return createParamDecorator(param, defaultQueryOptions);
 }
