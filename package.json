@@ -10,7 +10,8 @@
         "url": "https://william.wdes.fr"
     },
     "scripts": {
-        "build": "tsc"
+        "build": "tsc",
+        "prettier": "prettier --ignore-path ./.prettierignore --write \"*/**/*.ts\""
     },
     "license": "MPL-2.0",
     "private": false,
@@ -18,8 +19,16 @@
         "lodash": "^4.17.15"
     },
     "devDependencies": {
-        "@types/reflect-metadata": "^0.1.0",
         "@types/lodash": "^4.14.150",
+        "@types/reflect-metadata": "^0.1.0",
+        "prettier": "^2.0.5",
         "typescript": "^3.8.3"
+    },
+    "prettier": {
+        "singleQuote": true,
+        "proseWrap": "never",
+        "trailingComma": "es5",
+        "bracketSpacing": true,
+        "printWidth": 120
     }
 }
