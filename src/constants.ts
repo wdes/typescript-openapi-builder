@@ -20,3 +20,5 @@ export const DECORATORS = {
     API_EXTRA_MODELS: `${DECORATORS_PREFIX}/apiExtraModels`,
     API_EXTENSION: `${DECORATORS_PREFIX}/apiExtension`,
 };
+export const OPENAPI_NAMESPACE = 'openapi';
+export const OPENAPI_PACKAGE_NAME = 'typescript-openapi-builder';
