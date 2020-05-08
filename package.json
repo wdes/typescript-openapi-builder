@@ -9,9 +9,17 @@
         "email": "williamdes@wdes.fr",
         "url": "https://william.wdes.fr"
     },
+    "scripts": {
+        "build": "tsc"
+    },
     "license": "MPL-2.0",
     "private": false,
     "dependencies": {
         "lodash": "^4.17.15"
+    },
+    "devDependencies": {
+        "@types/reflect-metadata": "^0.1.0",
+        "@types/lodash": "^4.14.150",
+        "typescript": "^3.8.3"
     }
 }
