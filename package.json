@@ -11,7 +11,9 @@
     },
     "scripts": {
         "build": "tsc",
-        "prettier": "prettier --ignore-path ./.prettierignore --write \"*/**/*.ts\""
+        "prettier": "prettier --ignore-path ./.prettierignore --write \"*/**/*.ts\"",
+        "test": "NODE_ENV=test nyc mocha --require ts-node/register --require source-map-support/register --ui tdd test/index.ts",
+        "report-coverage": "nyc report --reporter=text-lcov > coverage.lcov"
     },
     "license": "MPL-2.0",
     "private": false,
@@ -19,10 +21,16 @@
         "lodash": "^4.17.15"
     },
     "devDependencies": {
+        "@types/chai": "^4.2.11",
         "@types/lodash": "^4.14.150",
+        "@types/mocha": "^7.0.2",
         "@types/node": "^13.13.5",
         "@types/reflect-metadata": "^0.1.0",
+        "chai": "^4.2.0",
+        "mocha": "^7.1.2",
+        "nyc": "^15.0.1",
         "prettier": "^2.0.5",
+        "ts-node": "^8.10.1",
         "typescript": "^3.8.3"
     },
     "prettier": {
@@ -31,5 +39,20 @@
         "trailingComma": "es5",
         "bracketSpacing": true,
         "printWidth": 120
+    },
+    "nyc": {
+        "extension": [
+            ".ts"
+        ],
+        "exclude": [
+            "dist",
+            "coverage",
+            ".nyc_output"
+        ],
+        "reporter": [
+            "text",
+            "text-summary"
+        ],
+        "all": true
     }
 }
