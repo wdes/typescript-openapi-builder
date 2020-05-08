@@ -5,8 +5,6 @@
       "declaration": true,
       "noImplicitAny": true,
       "removeComments": true,
-      "emitDecoratorMetadata": true,
-      "experimentalDecorators": true,
       "sourceMap": false,
       "noLib": false,
       "outDir": "./dist",
@@ -17,6 +15,7 @@
       "src/*"
     ],
     "exclude": [
-      "node_modules"
+      "node_modules",
+      "test/data/*.ts"
     ]
 }

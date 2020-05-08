@@ -10,23 +10,23 @@ export class ExampleController {
         name: 'Is-Cool',
         description: 'The is cool header',
     })
-    public async getFooList(req, res): void {
+    public getFooList(req, res): void {
         return;
     }
 
     @Post('/add')
-    public async addToFooList(req, res): void {
+    public addToFooList(req, res): void {
         return;
     }
 
     @Delete('/delete')
     @ApiBearerAuth()
-    public async deleteFromFooList(req, res): void {
+    public deleteFromFooList(req, res): void {
         return;
     }
 
     @Patch()
-    public async patch(req, res): void {
+    public patch(req, res): void {
         return;
     }
 }
