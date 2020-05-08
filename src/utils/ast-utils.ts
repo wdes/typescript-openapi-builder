@@ -18,6 +18,8 @@ import {
     TypeChecker,
     TypeFlags,
     TypeFormatFlags,
+    NodeArray,
+    Expression,
 } from 'typescript';
 import { isDynamicallyAdded } from './plugin-utils';
 
@@ -99,7 +101,7 @@ export function getDefaultTypeFormatFlags(enclosingNode: Node) {
     return formatFlags;
 }
 
-export function getDecoratorArguments(decorator: Decorator) {
+export function getDecoratorArguments(decorator: Decorator): NodeArray<Expression> | [] {
     const callExpression = decorator.expression;
     return (callExpression && (callExpression as CallExpression).arguments) || [];
 }
