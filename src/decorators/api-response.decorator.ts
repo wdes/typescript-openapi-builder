@@ -4,7 +4,7 @@
  * @licence https://opensource.org/licenses/MIT
  * @source https://github.com/nestjs/swagger/tree/4.5.5
  */
-import { HttpStatus } from '@nestjs/common/enums/http-status.enum';
+import { HttpStatus } from '../interfaces/HttpStatus';
 import { omit } from 'lodash';
 import { DECORATORS } from '../constants';
 import {
