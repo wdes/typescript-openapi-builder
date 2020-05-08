@@ -14,6 +14,9 @@ export default () => {
                             decorators: [
                                 {
                                     name: 'Route',
+                                    args: {
+                                        0: '/admin',
+                                    },
                                 },
                             ],
                             methods: [
@@ -22,12 +25,14 @@ export default () => {
                                     decorators: [
                                         {
                                             name: 'Get',
+                                            args: {
+                                                0: '/list',
+                                            },
                                         },
                                         {
                                             name: 'ApiHeader',
-                                            properties: {
-                                                description: 'The is cool header',
-                                                name: 'Is-Cool',
+                                            args: {
+                                                0: { description: 'The is cool header', name: 'Is-Cool' },
                                             },
                                         },
                                     ],
@@ -37,6 +42,9 @@ export default () => {
                                     decorators: [
                                         {
                                             name: 'Post',
+                                            args: {
+                                                0: '/add',
+                                            },
                                         },
                                     ],
                                 },
@@ -45,6 +53,9 @@ export default () => {
                                     decorators: [
                                         {
                                             name: 'Delete',
+                                            args: {
+                                                0: '/delete',
+                                            },
                                         },
                                         {
                                             name: 'ApiBearerAuth',
@@ -67,6 +78,9 @@ export default () => {
                             decorators: [
                                 {
                                     name: 'Patch',
+                                    args: {
+                                        0: '/legacy/patch',
+                                    },
                                 },
                             ],
                             name: 'legacyPatch',

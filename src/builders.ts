@@ -1,12 +1,17 @@
 import * as ts from 'typescript';
 
-export interface DecoratorProperties {
+export interface DecoratorArguments {
+    [nbr: number]: DecoratorObjectArgument | string;
+}
+
+export interface DecoratorObjectArgument {
     [key: string]: string;
 }
 
 export interface BuiltDecorator {
     name?: string;
-    properties?: DecoratorProperties;
+    value?: string;
+    args?: DecoratorArguments;
 }
 
 export interface ControllerMethod {
@@ -38,7 +43,7 @@ export default class Builders {
                 }
                 const props = this.extractObject(call);
                 if (Object.keys(props).length > 0) {
-                    theDecorator.properties = props;
+                    theDecorator.args = props;
                 }
             }
             builtDecorators.push(theDecorator);
@@ -46,11 +51,11 @@ export default class Builders {
         return builtDecorators;
     }
 
-    private static extractObject(call: ts.CallExpression): DecoratorProperties {
-        let properties: DecoratorProperties = {};
-        call.arguments.forEach((arg) => {
+    private static extractObject(call: ts.CallExpression): DecoratorArguments {
+        let properties: DecoratorArguments = {};
+        call.arguments.forEach((arg, i) => {
             if (arg.kind === ts.SyntaxKind.ObjectLiteralExpression) {
-                properties = {};
+                let emptyObj: DecoratorObjectArgument = {};
                 const argument = arg as ts.ObjectLiteralExpression;
                 argument.properties.reduce((acc, el) => {
                     if (el.kind === ts.SyntaxKind.PropertyAssignment) {
@@ -64,7 +69,10 @@ export default class Builders {
                         }
                         return acc;
                     }
-                }, properties);
+                }, emptyObj);
+                properties[i] = emptyObj;
+            } else if (arg.kind === ts.SyntaxKind.StringLiteral) {
+                properties[i] = (arg as ts.StringLiteral).text;
             }
         });
         return properties;
