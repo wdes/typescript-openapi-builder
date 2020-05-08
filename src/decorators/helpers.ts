@@ -5,7 +5,7 @@
  * @source https://github.com/nestjs/swagger/tree/4.5.5
  */
 import { isArray, isUndefined, negate, pickBy } from 'lodash';
-import { DECORATORS } from '../../../swagger/lib/constants';
+import { DECORATORS } from '../constants';
 
 export function createMethodDecorator<T = any>(
   metakey: string,

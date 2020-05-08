@@ -9,8 +9,8 @@ import {
   ParameterObject,
   SchemaObject
 } from '../interfaces/open-api-spec.interface';
-import { SwaggerEnumType } from '../../../swagger/lib/types/swagger-enum.type';
-import { getEnumType, getEnumValues } from '../../../swagger/lib/utils/enum.utils';
+import { SwaggerEnumType } from '../types/swagger-enum.type';
+import { getEnumType, getEnumValues } from '../utils/enum.utils';
 import { createParamDecorator } from './helpers';
 
 type ParameterOptions = Omit<ParameterObject, 'in' | 'schema'>;
