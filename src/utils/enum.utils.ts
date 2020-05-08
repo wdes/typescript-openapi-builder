@@ -18,7 +18,9 @@ export function getEnumValues(enumType: SwaggerEnumType): string[] | number[] {
     }
 
     const values = [];
-    const uniqueValues = {};
+    const uniqueValues: {
+        [key: string]: any;
+    } = {};
 
     for (const key in enumType) {
         const value = enumType[key];
@@ -84,4 +86,4 @@ export const isEnumDefined = <T extends Partial<Record<'enum', any>>>(
 ): obj is T => obj.enum;
 
 export const isEnumMetadata = (metadata: SchemaObjectMetadata) =>
-    metadata.enum || (metadata.isArray && metadata.items?.['enum']);
+    metadata.enum || (metadata.isArray && 'enum' in metadata.items);

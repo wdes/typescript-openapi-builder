@@ -132,6 +132,6 @@ export function getTypeIsArrayTuple(
     return [input as Function, isArrayFlag];
   }
   const isInputArray = isArray(input);
-  const type = isInputArray ? input[0] : input;
+  const type = isInputArray ? (input as Array<any>)[0] : input;
   return [type, isInputArray];
 }
