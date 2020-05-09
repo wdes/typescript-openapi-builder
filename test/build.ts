@@ -1,5 +1,8 @@
 import { expect } from 'chai';
 import Builders from '../src/builders';
+import Spec from '../src/spec';
+import { OpenAPIObject } from '../src/interfaces';
+import { DocumentBuilder } from '../src/scan/document-builder';
 
 export default () => {
     suite('test build', () => {
@@ -94,6 +97,74 @@ export default () => {
                     ],
                 },
             ]);
+        });
+        test('Test build spec', () => {
+            const metas = Builders.buildMetaForFiles([fileToScan]);
+            const document = new DocumentBuilder();
+            document.setLicense('MPL-2.0', 'https://opensource.org/licenses/MPL-2.0');
+            document.setDescription('Testing API');
+            document.setExternalDoc('Williamdes', 'https://william/wdes.fr');
+            document.setTitle('Test API');
+            document.setVersion('v1');
+            const oa: OpenAPIObject = {
+                paths: {
+                    '/admin/add': {
+                        post: {
+                            responses: {},
+                            description: '',
+                            summary: '',
+                        },
+                    },
+                    '/admin/patch': {
+                        patch: {
+                            responses: {},
+                            description: '',
+                            summary: '',
+                        },
+                    },
+                    '/admin/delete': {
+                        delete: {
+                            responses: {},
+                            description: '',
+                            summary: '',
+                        },
+                    },
+                    '/legacy/patch': {
+                        patch: {
+                            responses: {},
+                            description: '',
+                            summary: '',
+                        },
+                    },
+                    '/admin/list': {
+                        get: {
+                            responses: {},
+                            description: 'get the list of foo elements',
+                            summary: 'get the list of foo elements',
+                        },
+                    },
+                },
+                components: {},
+                externalDocs: {
+                    description: 'Williamdes',
+                    url: 'https://william/wdes.fr',
+                },
+                info: {
+                    contact: {},
+                    description: 'Testing API',
+                    license: {
+                        name: 'MPL-2.0',
+                        url: 'https://opensource.org/licenses/MPL-2.0',
+                    },
+
+                    title: 'Test API',
+                    version: 'v1',
+                },
+                openapi: '3.0.0',
+                servers: [],
+                tags: [],
+            };
+            expect(Spec.buildSpecFromCollectedMeta(metas, document)).to.deep.equal(oa);
         });
     });
 };
