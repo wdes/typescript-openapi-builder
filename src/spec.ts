@@ -59,13 +59,24 @@ export default class Spec {
                     controllerRoute + '/' + method.name
                 );
                 methodRoutes.forEach((methodRoute) => {
-                    oa.paths[methodRoute.path] = {
-                        [methodRoute.method]: {
-                            responses: {},
-                            summary: method.documentation,
-                            description: method.documentation,
-                        },
-                    };
+                    if (oa.paths[methodRoute.path]) {
+                        oa.paths[methodRoute.path] = {
+                            ...oa.paths[methodRoute.path],
+                            [methodRoute.method]: {
+                                responses: {},
+                                summary: method.documentation,
+                                description: method.documentation,
+                            },
+                        };
+                    } else {
+                        oa.paths[methodRoute.path] = {
+                            [methodRoute.method]: {
+                                responses: {},
+                                summary: method.documentation,
+                                description: method.documentation,
+                            },
+                        };
+                    }
                 });
             });
         };

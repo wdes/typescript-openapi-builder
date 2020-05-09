@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import Builders from '../src/builders';
+import Builders, { FileMetadata } from '../src/builders';
 import Spec from '../src/spec';
 import { OpenAPIObject } from '../src/interfaces';
 import { DocumentBuilder } from '../src/scan/document-builder';
@@ -8,7 +8,8 @@ export default () => {
     suite('test build', () => {
         const fileToScan = __dirname + '/data/ExampleController.ts';
         test('Test example controller', () => {
-            expect(Builders.buildMetaForFiles([fileToScan])).to.deep.equal([
+            const metaFiles: FileMetadata[] = Builders.buildMetaForFiles([fileToScan]);
+            expect(metaFiles).to.deep.equal([
                 {
                     fileName: fileToScan,
                     controllers: [
@@ -66,6 +67,30 @@ export default () => {
                                         },
                                         {
                                             name: 'ApiBearerAuth',
+                                        },
+                                    ],
+                                },
+                                {
+                                    name: 'complicatedRoute',
+                                    documentation: '',
+                                    decorators: [
+                                        {
+                                            name: 'Delete',
+                                            args: {
+                                                0: '/legacy/delete',
+                                            },
+                                        },
+                                        {
+                                            name: 'Post',
+                                            args: {
+                                                0: '/legacy/delete',
+                                            },
+                                        },
+                                        {
+                                            name: 'Post',
+                                            args: {
+                                                0: '/v1/legacy/delete',
+                                            },
                                         },
                                     ],
                                 },
@@ -141,6 +166,25 @@ export default () => {
                             responses: {},
                             description: 'get the list of foo elements',
                             summary: 'get the list of foo elements',
+                        },
+                    },
+                    '/admin/legacy/delete': {
+                        delete: {
+                            description: '',
+                            responses: {},
+                            summary: '',
+                        },
+                        post: {
+                            description: '',
+                            responses: {},
+                            summary: '',
+                        },
+                    },
+                    '/admin/v1/legacy/delete': {
+                        post: {
+                            description: '',
+                            responses: {},
+                            summary: '',
                         },
                     },
                 },

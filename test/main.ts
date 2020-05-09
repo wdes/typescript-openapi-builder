@@ -58,6 +58,25 @@ export default () => {
                             summary: 'get the list of dev tools',
                         },
                     },
+                    '/admin/legacy/delete': {
+                        delete: {
+                            description: '',
+                            responses: {},
+                            summary: '',
+                        },
+                        post: {
+                            description: '',
+                            responses: {},
+                            summary: '',
+                        },
+                    },
+                    '/admin/v1/legacy/delete': {
+                        post: {
+                            description: '',
+                            responses: {},
+                            summary: '',
+                        },
+                    },
                 },
                 components: {},
                 externalDocs: {

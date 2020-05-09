@@ -32,6 +32,13 @@ export class ExampleController {
         return;
     }
 
+    @Delete('/legacy/delete')
+    @Post('/legacy/delete')
+    @Post('/v1/legacy/delete')
+    public complicatedRoute(req, res): void {
+        return;
+    }
+
     @Patch()
     public patch(req, res): void {
         return;
