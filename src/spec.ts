@@ -1,6 +1,7 @@
 import { FileMetadata, BuiltDecorator, ControllerMethod, ControllerClass } from './builders';
 import { OpenAPIObject } from './interfaces';
 import { DocumentBuilder } from './scan/document-builder';
+import { ApiOperationOptions } from './decorators';
 
 const methodNames = ['Get', 'Post', 'Patch', 'Put', 'Delete', 'Head'];
 
@@ -32,6 +33,16 @@ export default class Spec {
             }
         });
         return tags;
+    }
+
+    private static getApiOperationOptionsFromDecorators(decs: BuiltDecorator[]): ApiOperationOptions {
+        let options: ApiOperationOptions = {};
+        decs.forEach((dec) => {
+            if (dec.name && ['ApiOperation'].includes(dec.name)) {
+                options = (dec.args as any)['0'];
+            }
+        });
+        return options;
     }
 
     private static getSecurityFromDecorators(decs: BuiltDecorator[]): [string, string[]][] {
@@ -76,6 +87,7 @@ export default class Spec {
             const methodTags: string[] = Spec.getTagsFromDecorators(method.decorators);
             const controllerSecurity = Spec.getSecurityFromDecorators(controller.decorators);
             const methodSecurity = Spec.getSecurityFromDecorators(method.decorators);
+            const methodOperationOptions = Spec.getApiOperationOptionsFromDecorators(method.decorators);
             controllerRoutes.forEach((controllerRoute) => {
                 const methodRoutes = this.getMethodsFromDecorators(
                     method.decorators,
@@ -92,6 +104,7 @@ export default class Spec {
                                 responses: {},
                                 summary: method.documentation,
                                 description: method.documentation,
+                                ...methodOperationOptions,
                             },
                         };
                     } else {
@@ -102,6 +115,7 @@ export default class Spec {
                                 responses: {},
                                 summary: method.documentation,
                                 description: method.documentation,
+                                ...methodOperationOptions,
                             },
                         };
                     }

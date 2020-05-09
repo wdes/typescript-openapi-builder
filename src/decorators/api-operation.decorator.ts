@@ -6,12 +6,11 @@
  */
 import { OperationObject } from '../interfaces/open-api-spec.interface';
 
-export type ApiOperationOptions = Partial<OperationObject>;
+export type ApiOperationOptions = Pick<
+    Partial<OperationObject>,
+    'tags' | 'summary' | 'description' | 'operationId' | 'deprecated'
+>;
 
-const defaultOperationOptions: ApiOperationOptions = {
-    summary: '',
-};
-
-export function ApiOperation(options: ApiOperationOptions): void {
-    return;
+export function ApiOperation(options: ApiOperationOptions): MethodDecorator {
+    return () => {};
 }
