@@ -8,6 +8,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 - Some decorators fixes
 - Support multiple method for the same route
+- Remove an invalid implementation for decorators on Functions
+- Support tags using ApiTags
+- Fix import from main script
 
 ## [v0.0.3]
 
