@@ -2,7 +2,7 @@ import { Post, Get, Delete, Patch } from '../../src/decorators/api-methods.decor
 import { Route } from '../../src/decorators/api-route.decorator';
 import { ApiHeader } from '../../src/decorators/api-header.decorator';
 import { ApiBearerAuth } from '../../src/decorators/api-bearer.decorator';
-import { ApiTags } from '../../src';
+import { ApiTags, ApiSecurity } from '../../src';
 
 /**
  * controller comment
@@ -10,6 +10,7 @@ import { ApiTags } from '../../src';
  */
 @Route('/admin')
 @ApiTags('admin')
+@ApiSecurity('token', ['admin'])
 export class ExampleController {
     /**
      * get the list of foo elements
@@ -24,6 +25,7 @@ export class ExampleController {
     }
 
     @Post('/add')
+    @ApiSecurity('jwt', ['admin'])
     public addToFooList(req, res): void {
         return;
     }

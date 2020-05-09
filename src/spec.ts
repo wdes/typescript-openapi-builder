@@ -34,6 +34,18 @@ export default class Spec {
         return tags;
     }
 
+    private static getSecurityFromDecorators(decs: BuiltDecorator[]): [string, string[]][] {
+        const tags: [string, string[]][] = [];
+        decs.forEach((dec) => {
+            if (dec.name && ['ApiSecurity'].includes(dec.name)) {
+                const reqs: string[] = Object.values(dec.args).slice(1);
+                const obj: [string, string[]] = [(dec.args as any)['0'], [...reqs]];
+                tags.push(obj);
+            }
+        });
+        return tags;
+    }
+
     private static getMethodsFromDecorators(
         decs: BuiltDecorator[],
         controllerRoute: string,
@@ -62,6 +74,8 @@ export default class Spec {
             const controllerRoutes: string[] = Spec.getRouteFromDecorators(controller.decorators, '/');
             const controllerTags: string[] = Spec.getTagsFromDecorators(controller.decorators);
             const methodTags: string[] = Spec.getTagsFromDecorators(method.decorators);
+            const controllerSecurity = Spec.getSecurityFromDecorators(controller.decorators);
+            const methodSecurity = Spec.getSecurityFromDecorators(method.decorators);
             controllerRoutes.forEach((controllerRoute) => {
                 const methodRoutes = this.getMethodsFromDecorators(
                     method.decorators,
@@ -74,6 +88,7 @@ export default class Spec {
                             ...oa.paths[methodRoute.path],
                             [methodRoute.method]: {
                                 tags: controllerTags.concat(methodTags),
+                                security: controllerSecurity.concat(methodSecurity),
                                 responses: {},
                                 summary: method.documentation,
                                 description: method.documentation,
@@ -83,6 +98,7 @@ export default class Spec {
                         oa.paths[methodRoute.path] = {
                             [methodRoute.method]: {
                                 tags: controllerTags.concat(methodTags),
+                                security: controllerSecurity.concat(methodSecurity),
                                 responses: {},
                                 summary: method.documentation,
                                 description: method.documentation,
