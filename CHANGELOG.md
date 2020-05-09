@@ -6,6 +6,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+- Some decorators fixes
+- Support multiple method for the same route
+
 ## [v0.0.3]
 
 - Some minor fixes
