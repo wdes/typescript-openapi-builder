@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [v0.0.3]
+
+- Some minor fixes
+
 ## [v0.0.2]
 
 - First version that only supports `@Route` and HTTP verbs
