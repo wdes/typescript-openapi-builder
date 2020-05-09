@@ -4,7 +4,6 @@
  * @licence https://opensource.org/licenses/MIT
  * @source https://github.com/nestjs/swagger/tree/4.5.5
  */
-import { isUndefined, negate, pickBy } from 'lodash';
 import { OpenAPIObject } from '../interfaces';
 import {
     ExternalDocumentationObject,
@@ -68,15 +67,16 @@ export class DocumentBuilder {
     }
 
     public addTag(name: string, description = '', externalDocs?: ExternalDocumentationObject): this {
+        //FIXME: broken since removal of l o d a s h
         this.document.tags = this.document.tags.concat(
-            pickBy(
+            /*pickBy(
                 {
                     name,
                     description,
                     externalDocs,
                 },
                 negate(isUndefined)
-            ) as TagObject
+            ) as TagObject*/
         );
         return this;
     }

@@ -9,7 +9,6 @@ Clean, fast, simple.
 
 ## TODO
 
-- [ ] Remove lodash dependency
 - [ ] Improve README.md to state code importation
 - [ ] Add more tests
 - [ ] Clean all unused files from the project

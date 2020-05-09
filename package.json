@@ -18,11 +18,9 @@
     "license": "MPL-2.0",
     "private": false,
     "dependencies": {
-        "lodash": "^4.17.15"
     },
     "devDependencies": {
         "@types/chai": "^4.2.11",
-        "@types/lodash": "^4.14.150",
         "@types/mocha": "^7.0.2",
         "@types/node": "^13.13.5",
         "@types/reflect-metadata": "^0.1.0",
