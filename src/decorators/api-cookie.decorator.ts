@@ -6,6 +6,6 @@
  */
 import { ApiSecurity } from './api-security.decorator';
 
-export function ApiCookieAuth(name = 'cookie') {
+export function ApiCookieAuth(name = 'cookie'): ClassDecorator & MethodDecorator {
     return ApiSecurity(name);
 }

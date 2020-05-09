@@ -5,6 +5,6 @@
  * @source https://github.com/nestjs/swagger/tree/4.5.5
  */
 
-export function ApiSecurity(name: string, requirements: string[] = []): void {
-    return;
+export function ApiSecurity(name: string, requirements: string[] = []): ClassDecorator & MethodDecorator {
+    return () => {};
 }

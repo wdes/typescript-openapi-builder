@@ -6,6 +6,6 @@
  */
 import { ApiSecurity } from './api-security.decorator';
 
-export function ApiBasicAuth(name = 'basic') {
+export function ApiBasicAuth(name = 'basic'): ClassDecorator & MethodDecorator {
     return ApiSecurity(name);
 }

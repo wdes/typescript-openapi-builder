@@ -6,6 +6,6 @@
  */
 import { ApiSecurity } from './api-security.decorator';
 
-export function ApiOAuth2(scopes: string[], name = 'oauth2') {
+export function ApiOAuth2(scopes: string[], name = 'oauth2'): ClassDecorator & MethodDecorator {
     return ApiSecurity(name, scopes);
 }
