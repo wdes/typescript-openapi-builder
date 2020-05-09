@@ -68,7 +68,8 @@ export class DocumentBuilder {
 
     public addTag(name: string, description = '', externalDocs?: ExternalDocumentationObject): this {
         //FIXME: broken since removal of l o d a s h
-        this.document.tags = this.document.tags.concat(
+        this.document.tags = this.document.tags
+            .concat
             /*pickBy(
                 {
                     name,
@@ -77,7 +78,7 @@ export class DocumentBuilder {
                 },
                 negate(isUndefined)
             ) as TagObject*/
-        );
+            ();
         return this;
     }
 

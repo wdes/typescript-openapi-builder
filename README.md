@@ -11,7 +11,6 @@ Clean, fast, simple.
 
 - [ ] Improve README.md to state code importation
 - [ ] Add more tests
-- [ ] Clean all unused files from the project
 - [ ] Have 100% coverage
 
 ## Known bugs

@@ -4,7 +4,6 @@
  * @licence https://opensource.org/licenses/MIT
  * @source https://github.com/nestjs/swagger/tree/4.5.5
  */
-import { DECORATORS } from '../constants';
 
 export function ApiConsumes(...mimeTypes: string[]): void {
     return;

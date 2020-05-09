@@ -18,7 +18,6 @@ export function ApiProperty(options: ApiPropertyOptions = {}): void {
     return;
 }
 
-
 export function ApiPropertyOptional(options: ApiPropertyOptions = {}): void {
     return ApiProperty({
         ...options,
