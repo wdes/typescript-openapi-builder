@@ -3,8 +3,15 @@ import { Route } from '../../src/decorators/api-route.decorator';
 import { ApiHeader } from '../../src/decorators/api-header.decorator';
 import { ApiBearerAuth } from '../../src/decorators/api-bearer.decorator';
 
+/**
+ * controller comment
+ * @licence MPL-2.0
+ */
 @Route('/admin')
 export class ExampleController {
+    /**
+     * get the list of foo elements
+     */
     @Get('/list')
     @ApiHeader({
         name: 'Is-Cool',

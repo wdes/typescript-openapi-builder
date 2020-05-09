@@ -19,9 +19,11 @@ export default () => {
                                     },
                                 },
                             ],
+                            documentation: 'controller comment',
                             methods: [
                                 {
                                     name: 'getFooList',
+                                    documentation: 'get the list of foo elements',
                                     decorators: [
                                         {
                                             name: 'Get',
@@ -39,6 +41,7 @@ export default () => {
                                 },
                                 {
                                     name: 'addToFooList',
+                                    documentation: '',
                                     decorators: [
                                         {
                                             name: 'Post',
@@ -50,6 +53,7 @@ export default () => {
                                 },
                                 {
                                     name: 'deleteFromFooList',
+                                    documentation: '',
                                     decorators: [
                                         {
                                             name: 'Delete',
@@ -64,6 +68,7 @@ export default () => {
                                 },
                                 {
                                     name: 'patch',
+                                    documentation: '',
                                     decorators: [
                                         {
                                             name: 'Patch',
@@ -84,6 +89,7 @@ export default () => {
                                 },
                             ],
                             name: 'legacyPatch',
+                            documentation: '',
                         },
                     ],
                 },

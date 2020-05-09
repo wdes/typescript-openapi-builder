@@ -16,10 +16,12 @@ export interface BuiltDecorator {
 
 export interface ControllerMethod {
     name: string;
+    documentation?: string;
     decorators: BuiltDecorator[];
 }
 export interface ControllerClass {
     name: string;
+    documentation?: string;
     methods: ControllerMethod[];
     decorators: BuiltDecorator[];
 }
@@ -80,6 +82,7 @@ export default class Builders {
 
     public static buildMetaForFiles(fileNames: string[]): FileMetadata[] {
         let program = ts.createProgram(fileNames, {});
+        const checker: ts.TypeChecker = program.getTypeChecker();
         // Dummy transformation context
         let context: ts.TransformationContext = {
             startLexicalEnvironment: () => {},
@@ -110,6 +113,7 @@ export default class Builders {
                 if (ts.isClassDeclaration(node)) {
                     let controller: ControllerClass = {
                         name: ((node as ts.ClassDeclaration).name as ts.Identifier).text,
+                        documentation: this.getDocumentationForNode(node, checker),
                         methods: [],
                         decorators: Builders.getDecorators(node),
                     };
@@ -119,6 +123,7 @@ export default class Builders {
                 if (ts.isMethodDeclaration(node)) {
                     let method: ControllerMethod = {
                         name: ((node as ts.MethodDeclaration).name as ts.Identifier).text,
+                        documentation: this.getDocumentationForNode(node, checker),
                         decorators: Builders.getDecorators(node),
                     };
                     if (controllerArg) {
@@ -131,6 +136,7 @@ export default class Builders {
                 if (ts.isFunctionDeclaration(node)) {
                     let method: ControllerMethod = {
                         name: ((node as ts.FunctionDeclaration).name as ts.Identifier).text,
+                        documentation: this.getDocumentationForNode(node, checker),
                         decorators: Builders.getDecorators(node),
                     };
                     fileMeta.methods.push(method);
@@ -142,4 +148,16 @@ export default class Builders {
         });
         return analysedFiles;
     }
+
+    private static getDocumentationForNode(
+        node: ts.ClassDeclaration | ts.MethodDeclaration | ts.FunctionDeclaration,
+        checker: ts.TypeChecker
+    ): string {
+        let symbol = checker.getSymbolAtLocation(node.name);
+        if (symbol) {
+            return ts.displayPartsToString(symbol.getDocumentationComment(checker));
+        }
+        return '';
+    }
+
 }
