@@ -5,6 +5,6 @@
  * @source https://github.com/nestjs/swagger/tree/4.5.5
  */
 
-export function ApiTags(...tags: string[]) {
-    return tags;
+export function ApiTags(...tags: string[]): MethodDecorator & ClassDecorator {
+    return () => {};
 }
