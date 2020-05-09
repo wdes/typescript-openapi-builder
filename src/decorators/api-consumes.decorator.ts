@@ -5,8 +5,7 @@
  * @source https://github.com/nestjs/swagger/tree/4.5.5
  */
 import { DECORATORS } from '../constants';
-import { createMixedDecorator } from './helpers';
 
-export function ApiConsumes(...mimeTypes: string[]) {
-    return createMixedDecorator(DECORATORS.API_CONSUMES, mimeTypes);
+export function ApiConsumes(...mimeTypes: string[]): void {
+    return;
 }

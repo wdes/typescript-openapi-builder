@@ -12,7 +12,6 @@ export * from './api-body.decorator';
 export * from './api-consumes.decorator';
 export * from './api-cookie.decorator';
 export * from './api-exclude-endpoint.decorator';
-export * from './api-extra-models.decorator';
 export * from './api-header.decorator';
 export * from './api-hide-property.decorator';
 export * from './api-oauth2.decorator';

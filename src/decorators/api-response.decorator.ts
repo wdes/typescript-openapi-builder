@@ -5,10 +5,7 @@
  * @source https://github.com/nestjs/swagger/tree/4.5.5
  */
 import { HttpStatus } from '../interfaces/HttpStatus';
-import { omit } from 'lodash';
-import { DECORATORS } from '../constants';
 import { ResponseObject, SchemaObject } from '../interfaces/open-api-spec.interface';
-import { getTypeIsArrayTuple } from './helpers';
 
 export interface ApiResponseMetadata extends Omit<ResponseObject, 'description'> {
     status?: number | 'default';
@@ -25,41 +22,8 @@ export interface ApiResponseSchemaHost extends Omit<ResponseObject, 'description
 
 export type ApiResponseOptions = ApiResponseMetadata | ApiResponseSchemaHost;
 
-export function ApiResponse(options: ApiResponseOptions): MethodDecorator & ClassDecorator {
-    const [type, isArray] = getTypeIsArrayTuple(
-        (options as ApiResponseMetadata).type,
-        (options as ApiResponseMetadata).isArray
-    );
-
-    (options as ApiResponseMetadata).type = type;
-    (options as ApiResponseMetadata).isArray = isArray;
-    options.description = options.description ? options.description : '';
-
-    const groupedMetadata = { [options.status]: omit(options, 'status') };
-    return (target: object, key?: string | symbol, descriptor?: TypedPropertyDescriptor<any>): any => {
-        if (descriptor) {
-            const responses = Reflect.getMetadata(DECORATORS.API_RESPONSE, descriptor.value) || {};
-            Reflect.defineMetadata(
-                DECORATORS.API_RESPONSE,
-                {
-                    ...responses,
-                    ...groupedMetadata,
-                },
-                descriptor.value
-            );
-            return descriptor;
-        }
-        const responses = Reflect.getMetadata(DECORATORS.API_RESPONSE, target) || {};
-        Reflect.defineMetadata(
-            DECORATORS.API_RESPONSE,
-            {
-                ...responses,
-                ...groupedMetadata,
-            },
-            target
-        );
-        return target;
-    };
+export function ApiResponse(options: ApiResponseOptions): ApiResponseOptions {
+    return options;
 }
 
 export const ApiOkResponse = (options: ApiResponseOptions = {}) =>

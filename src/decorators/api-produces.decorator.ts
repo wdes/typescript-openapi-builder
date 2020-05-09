@@ -4,9 +4,7 @@
  * @licence https://opensource.org/licenses/MIT
  * @source https://github.com/nestjs/swagger/tree/4.5.5
  */
-import { DECORATORS } from '../constants';
-import { createMixedDecorator } from './helpers';
 
-export function ApiProduces(...mimeTypes: string[]) {
-    return createMixedDecorator(DECORATORS.API_PRODUCES, mimeTypes);
+export function ApiProduces(...mimeTypes: string[]): void {
+    return;
 }

@@ -4,11 +4,8 @@
  * @licence https://opensource.org/licenses/MIT
  * @source https://github.com/nestjs/swagger/tree/4.5.5
  */
-import { isNil, omit } from 'lodash';
 import { ParameterObject, SchemaObject } from '../interfaces/open-api-spec.interface';
 import { SwaggerEnumType } from '../types/swagger-enum.type';
-import { addEnumArraySchema, addEnumSchema, isEnumArray, isEnumDefined } from '../utils/enum.utils';
-import { createParamDecorator, getTypeIsArrayTuple } from './helpers';
 
 type ParameterOptions = Omit<ParameterObject, 'in' | 'schema'>;
 
@@ -30,22 +27,6 @@ const defaultQueryOptions: ApiQueryOptions = {
     required: true,
 };
 
-export function ApiQuery(options: ApiQueryOptions): MethodDecorator {
-    const apiQueryMetadata = options as ApiQueryMetadata;
-    const [type, isArray] = getTypeIsArrayTuple(apiQueryMetadata.type, apiQueryMetadata.isArray);
-    const param: ApiQueryMetadata & Record<string, any> = {
-        name: isNil(options.name) ? defaultQueryOptions.name : options.name,
-        in: 'query',
-        ...omit(options, 'enum'),
-        type,
-        isArray,
-    };
-
-    if (isEnumArray(options)) {
-        addEnumArraySchema(param, options);
-    } else if (isEnumDefined(options)) {
-        addEnumSchema(param, options);
-    }
-
-    return createParamDecorator(param, defaultQueryOptions);
+export function ApiQuery(options: ApiQueryOptions): void {
+    return;
 }
