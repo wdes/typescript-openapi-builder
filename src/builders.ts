@@ -34,16 +34,19 @@ export interface FileMetadata {
 export default class Builders {
     public static getDecorators(node: ts.Node, checker: ts.TypeChecker): BuiltDecorator[] {
         let builtDecorators: BuiltDecorator[] = [];
+        if (!node.decorators) {
+            return builtDecorators;
+        }
         node.decorators.forEach((decorator) => {
             const theDecorator: BuiltDecorator = {};
             if (decorator.expression.kind === ts.SyntaxKind.CallExpression) {
                 const call = decorator.expression as ts.CallExpression;
-                //this.getTypeForNode(call, checker));
+                //Builders.getTypeForNode(call, checker));
                 if (call.expression.kind === ts.SyntaxKind.Identifier) {
                     const identifier = call.expression as ts.Identifier;
                     theDecorator.name = identifier.text;
                 }
-                const props = this.extractObject(call, checker);
+                const props = Builders.extractObject(call, checker);
                 if (Object.keys(props).length > 0) {
                     theDecorator.args = props;
                 }
@@ -111,9 +114,10 @@ export default class Builders {
             };
             const visitNode = (node: ts.Node, controllerArg?: ControllerClass): ts.Node => {
                 if (ts.isClassDeclaration(node)) {
+                    const name = (node as ts.ClassDeclaration).name;
                     let controller: ControllerClass = {
-                        name: ((node as ts.ClassDeclaration).name as ts.Identifier).text,
-                        documentation: this.getDocumentationForNode(node, checker),
+                        name: name ? (name as ts.Identifier).text : '',
+                        documentation: Builders.getDocumentationForNode(node, checker),
                         methods: [],
                         decorators: Builders.getDecorators(node, checker),
                     };
@@ -121,9 +125,10 @@ export default class Builders {
                     return ts.visitEachChild(node, (node) => visitNode(node, controller), context);
                 }
                 if (ts.isMethodDeclaration(node)) {
+                    const name = (node as ts.MethodDeclaration).name;
                     let method: ControllerMethod = {
-                        name: ((node as ts.MethodDeclaration).name as ts.Identifier).text,
-                        documentation: this.getDocumentationForNode(node, checker),
+                        name: name ? (name as ts.Identifier).text : '',
+                        documentation: Builders.getDocumentationForNode(node, checker),
                         decorators: Builders.getDecorators(node, checker),
                     };
                     if (controllerArg) {
@@ -134,9 +139,10 @@ export default class Builders {
                     }
                 }
                 if (ts.isFunctionDeclaration(node)) {
+                    const name = (node as ts.FunctionDeclaration).name;
                     let method: ControllerMethod = {
-                        name: ((node as ts.FunctionDeclaration).name as ts.Identifier).text,
-                        documentation: this.getDocumentationForNode(node, checker),
+                        name: name ? (name as ts.Identifier).text : '',
+                        documentation: Builders.getDocumentationForNode(node, checker),
                         decorators: Builders.getDecorators(node, checker),
                     };
                     fileMeta.methods.push(method);
