@@ -1,5 +1,4 @@
-export function Route(path: string): Function {
-    return () => {
-        return path;
-    };
+interface RoutePath extends String {}
+export function Route(path: string): RoutePath {
+    return path;
 }

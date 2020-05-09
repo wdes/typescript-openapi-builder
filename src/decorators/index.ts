@@ -5,6 +5,8 @@
  * @source https://github.com/nestjs/swagger/tree/4.5.5
  */
 export * from './api-basic.decorator';
+export * from './api-methods.decorator';
+export * from './api-route.decorator';
 export * from './api-bearer.decorator';
 export * from './api-body.decorator';
 export * from './api-consumes.decorator';

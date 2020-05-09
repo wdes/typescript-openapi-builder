@@ -1,4 +1,4 @@
-import { Post, Get, Delete, Patch } from '../../src/decorators/api-methods';
+import { Post, Get, Delete, Patch } from '../../src/decorators/api-methods.decorator';
 import { Route } from '../../src/decorators/api-route.decorator';
 import { ApiHeader } from '../../src/decorators/api-header.decorator';
 import { ApiBearerAuth } from '../../src/decorators/api-bearer.decorator';
