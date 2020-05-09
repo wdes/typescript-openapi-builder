@@ -31,6 +31,11 @@ export default () => {
                         },
                     },
                     '/admin/delete': {
+                        put: {
+                            responses: {},
+                            description: '',
+                            summary: '',
+                        },
                         delete: {
                             responses: {},
                             description: '',

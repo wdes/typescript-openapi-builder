@@ -71,6 +71,18 @@ export default () => {
                                     ],
                                 },
                                 {
+                                    name: 'alsoAPutMethod',
+                                    documentation: '',
+                                    decorators: [
+                                        {
+                                            name: 'Put',
+                                            args: {
+                                                0: '/delete',
+                                            },
+                                        },
+                                    ],
+                                },
+                                {
                                     name: 'complicatedRoute',
                                     documentation: '',
                                     decorators: [
@@ -148,6 +160,11 @@ export default () => {
                         },
                     },
                     '/admin/delete': {
+                        put: {
+                            description: '',
+                            responses: {},
+                            summary: '',
+                        },
                         delete: {
                             responses: {},
                             description: '',

@@ -32,6 +32,11 @@ export class ExampleController {
         return;
     }
 
+    @Put('/delete')
+    public alsoAPutMethod(req, res): void {
+        return;
+    }
+
     @Delete('/legacy/delete')
     @Post('/legacy/delete')
     @Post('/v1/legacy/delete')
