@@ -1,0 +1,7 @@
+/.nyc_output
+/node_modules
+/.editorconfig
+/tsconfig.json
+/.prettierignore
+/test
+/src
