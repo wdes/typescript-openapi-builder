@@ -42,13 +42,6 @@ export default () => {
                             summary: '',
                         },
                     },
-                    '/legacy/patch': {
-                        patch: {
-                            responses: {},
-                            description: '',
-                            summary: '',
-                        },
-                    },
                     '/admin/list': {
                         get: {
                             responses: {},

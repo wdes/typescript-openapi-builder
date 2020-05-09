@@ -27,7 +27,6 @@ export interface ControllerClass {
 
 export interface FileMetadata {
     fileName: string;
-    methods: ControllerMethod[];
     controllers: ControllerClass[];
 }
 
@@ -109,7 +108,6 @@ export default class Builders {
             const sourceFile = program.getSourceFile(fileToScan);
             const fileMeta: FileMetadata = {
                 fileName: fileToScan,
-                methods: [],
                 controllers: [],
             };
             const visitNode = (node: ts.Node, controllerArg?: ControllerClass): ts.Node => {
@@ -131,21 +129,7 @@ export default class Builders {
                         documentation: Builders.getDocumentationForNode(node, checker),
                         decorators: Builders.getDecorators(node, checker),
                     };
-                    if (controllerArg) {
-                        controllerArg.methods.push(method);
-                    } else {
-                        // Never happens, I hope so
-                        fileMeta.methods.push(method);
-                    }
-                }
-                if (ts.isFunctionDeclaration(node)) {
-                    const name = (node as ts.FunctionDeclaration).name;
-                    let method: ControllerMethod = {
-                        name: name ? (name as ts.Identifier).text : '',
-                        documentation: Builders.getDocumentationForNode(node, checker),
-                        decorators: Builders.getDecorators(node, checker),
-                    };
-                    fileMeta.methods.push(method);
+                    controllerArg.methods.push(method);
                 }
                 return ts.visitEachChild(node, (node) => visitNode(node), context);
             };

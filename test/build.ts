@@ -9,131 +9,116 @@ export default () => {
         const fileToScan = __dirname + '/data/ExampleController.ts';
         test('Test example controller', () => {
             const metaFiles: FileMetadata[] = Builders.buildMetaForFiles([fileToScan]);
-            expect(metaFiles).to.deep.equal([
-                {
-                    fileName: fileToScan,
-                    controllers: [
-                        {
-                            name: 'ExampleController',
-                            decorators: [
-                                {
-                                    name: 'Route',
-                                    args: {
-                                        0: '/admin',
+            const fileMeta: FileMetadata = {
+                fileName: fileToScan,
+                controllers: [
+                    {
+                        name: 'ExampleController',
+                        decorators: [
+                            {
+                                name: 'Route',
+                                args: {
+                                    0: '/admin',
+                                },
+                            },
+                        ],
+                        documentation: 'controller comment',
+                        methods: [
+                            {
+                                name: 'getFooList',
+                                documentation: 'get the list of foo elements',
+                                decorators: [
+                                    {
+                                        name: 'Get',
+                                        args: {
+                                            0: '/list',
+                                        },
                                     },
-                                },
-                            ],
-                            documentation: 'controller comment',
-                            methods: [
-                                {
-                                    name: 'getFooList',
-                                    documentation: 'get the list of foo elements',
-                                    decorators: [
-                                        {
-                                            name: 'Get',
-                                            args: {
-                                                0: '/list',
-                                            },
+                                    {
+                                        name: 'ApiHeader',
+                                        args: {
+                                            0: { description: 'The is cool header', name: 'Is-Cool' },
                                         },
-                                        {
-                                            name: 'ApiHeader',
-                                            args: {
-                                                0: { description: 'The is cool header', name: 'Is-Cool' },
-                                            },
-                                        },
-                                    ],
-                                },
-                                {
-                                    name: 'addToFooList',
-                                    documentation: '',
-                                    decorators: [
-                                        {
-                                            name: 'Post',
-                                            args: {
-                                                0: '/add',
-                                            },
-                                        },
-                                    ],
-                                },
-                                {
-                                    name: 'deleteFromFooList',
-                                    documentation: '',
-                                    decorators: [
-                                        {
-                                            name: 'Delete',
-                                            args: {
-                                                0: '/delete',
-                                            },
-                                        },
-                                        {
-                                            name: 'ApiBearerAuth',
-                                        },
-                                    ],
-                                },
-                                {
-                                    name: 'alsoAPutMethod',
-                                    documentation: '',
-                                    decorators: [
-                                        {
-                                            name: 'Put',
-                                            args: {
-                                                0: '/delete',
-                                            },
-                                        },
-                                    ],
-                                },
-                                {
-                                    name: 'complicatedRoute',
-                                    documentation: '',
-                                    decorators: [
-                                        {
-                                            name: 'Delete',
-                                            args: {
-                                                0: '/legacy/delete',
-                                            },
-                                        },
-                                        {
-                                            name: 'Post',
-                                            args: {
-                                                0: '/legacy/delete',
-                                            },
-                                        },
-                                        {
-                                            name: 'Post',
-                                            args: {
-                                                0: '/v1/legacy/delete',
-                                            },
-                                        },
-                                    ],
-                                },
-                                {
-                                    name: 'patch',
-                                    documentation: '',
-                                    decorators: [
-                                        {
-                                            name: 'Patch',
-                                        },
-                                    ],
-                                },
-                            ],
-                        },
-                    ],
-                    methods: [
-                        {
-                            decorators: [
-                                {
-                                    name: 'Patch',
-                                    args: {
-                                        0: '/legacy/patch',
                                     },
-                                },
-                            ],
-                            name: 'legacyPatch',
-                            documentation: '',
-                        },
-                    ],
-                },
-            ]);
+                                ],
+                            },
+                            {
+                                name: 'addToFooList',
+                                documentation: '',
+                                decorators: [
+                                    {
+                                        name: 'Post',
+                                        args: {
+                                            0: '/add',
+                                        },
+                                    },
+                                ],
+                            },
+                            {
+                                name: 'deleteFromFooList',
+                                documentation: '',
+                                decorators: [
+                                    {
+                                        name: 'Delete',
+                                        args: {
+                                            0: '/delete',
+                                        },
+                                    },
+                                    {
+                                        name: 'ApiBearerAuth',
+                                    },
+                                ],
+                            },
+                            {
+                                name: 'alsoAPutMethod',
+                                documentation: '',
+                                decorators: [
+                                    {
+                                        name: 'Put',
+                                        args: {
+                                            0: '/delete',
+                                        },
+                                    },
+                                ],
+                            },
+                            {
+                                name: 'complicatedRoute',
+                                documentation: '',
+                                decorators: [
+                                    {
+                                        name: 'Delete',
+                                        args: {
+                                            0: '/legacy/delete',
+                                        },
+                                    },
+                                    {
+                                        name: 'Post',
+                                        args: {
+                                            0: '/legacy/delete',
+                                        },
+                                    },
+                                    {
+                                        name: 'Post',
+                                        args: {
+                                            0: '/v1/legacy/delete',
+                                        },
+                                    },
+                                ],
+                            },
+                            {
+                                name: 'patch',
+                                documentation: '',
+                                decorators: [
+                                    {
+                                        name: 'Patch',
+                                    },
+                                ],
+                            },
+                        ],
+                    },
+                ],
+            };
+            expect(metaFiles).to.deep.equal([fileMeta]);
         });
         test('Test build spec', () => {
             const metas = Builders.buildMetaForFiles([fileToScan]);
@@ -166,13 +151,6 @@ export default () => {
                             summary: '',
                         },
                         delete: {
-                            responses: {},
-                            description: '',
-                            summary: '',
-                        },
-                    },
-                    '/legacy/patch': {
-                        patch: {
                             responses: {},
                             description: '',
                             summary: '',

@@ -85,7 +85,6 @@ export default class Spec {
             fileMeta.controllers.forEach((controller) => {
                 controller.methods.forEach((method) => registerMethod(method, controller));
             });
-            fileMeta.methods.forEach((method) => registerMethod(method));
         });
         return oa;
     }

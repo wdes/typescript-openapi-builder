@@ -49,8 +49,3 @@ export class ExampleController {
         return;
     }
 }
-
-@Patch('/legacy/patch')
-function legacyPatch(req, res): void {
-    return;
-}
