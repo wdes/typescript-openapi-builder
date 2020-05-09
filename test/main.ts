@@ -4,7 +4,7 @@ import { OpenAPIObject } from '../src/interfaces';
 import { DocumentBuilder } from '../src/scan/document-builder';
 
 export default () => {
-    suite('test build', () => {
+    suite('test main', () => {
         const dirToScan = __dirname + '/data';
         test('Test build spec', () => {
             const document = new DocumentBuilder();
