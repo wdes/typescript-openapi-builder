@@ -1,5 +1,4 @@
 import * as ts from 'typescript';
-
 export interface DecoratorArguments {
     [nbr: number]: DecoratorObjectArgument | string;
 }
@@ -33,17 +32,18 @@ export interface FileMetadata {
 }
 
 export default class Builders {
-    public static getDecorators(node: ts.Node): BuiltDecorator[] {
+    public static getDecorators(node: ts.Node, checker: ts.TypeChecker): BuiltDecorator[] {
         let builtDecorators: BuiltDecorator[] = [];
         node.decorators.forEach((decorator) => {
             const theDecorator: BuiltDecorator = {};
             if (decorator.expression.kind === ts.SyntaxKind.CallExpression) {
                 const call = decorator.expression as ts.CallExpression;
+                //this.getTypeForNode(call, checker));
                 if (call.expression.kind === ts.SyntaxKind.Identifier) {
                     const identifier = call.expression as ts.Identifier;
                     theDecorator.name = identifier.text;
                 }
-                const props = this.extractObject(call);
+                const props = this.extractObject(call, checker);
                 if (Object.keys(props).length > 0) {
                     theDecorator.args = props;
                 }
@@ -53,7 +53,7 @@ export default class Builders {
         return builtDecorators;
     }
 
-    private static extractObject(call: ts.CallExpression): DecoratorArguments {
+    private static extractObject(call: ts.CallExpression, checker: ts.TypeChecker): DecoratorArguments {
         let properties: DecoratorArguments = {};
         call.arguments.forEach((arg, i) => {
             if (arg.kind === ts.SyntaxKind.ObjectLiteralExpression) {
@@ -115,7 +115,7 @@ export default class Builders {
                         name: ((node as ts.ClassDeclaration).name as ts.Identifier).text,
                         documentation: this.getDocumentationForNode(node, checker),
                         methods: [],
-                        decorators: Builders.getDecorators(node),
+                        decorators: Builders.getDecorators(node, checker),
                     };
                     fileMeta.controllers.push(controller);
                     return ts.visitEachChild(node, (node) => visitNode(node, controller), context);
@@ -124,7 +124,7 @@ export default class Builders {
                     let method: ControllerMethod = {
                         name: ((node as ts.MethodDeclaration).name as ts.Identifier).text,
                         documentation: this.getDocumentationForNode(node, checker),
-                        decorators: Builders.getDecorators(node),
+                        decorators: Builders.getDecorators(node, checker),
                     };
                     if (controllerArg) {
                         controllerArg.methods.push(method);
@@ -137,7 +137,7 @@ export default class Builders {
                     let method: ControllerMethod = {
                         name: ((node as ts.FunctionDeclaration).name as ts.Identifier).text,
                         documentation: this.getDocumentationForNode(node, checker),
-                        decorators: Builders.getDecorators(node),
+                        decorators: Builders.getDecorators(node, checker),
                     };
                     fileMeta.methods.push(method);
                 }
@@ -147,6 +147,10 @@ export default class Builders {
             analysedFiles.push(fileMeta);
         });
         return analysedFiles;
+    }
+
+    private static getTypeForNode(node: ts.Decorator | ts.CallExpression, checker: ts.TypeChecker): string {
+        return checker.typeToString(checker.getTypeAtLocation(node));
     }
 
     private static getDocumentationForNode(
