@@ -2,12 +2,14 @@ import { Post, Get, Delete, Patch } from '../../src/decorators/api-methods.decor
 import { Route } from '../../src/decorators/api-route.decorator';
 import { ApiHeader } from '../../src/decorators/api-header.decorator';
 import { ApiBearerAuth } from '../../src/decorators/api-bearer.decorator';
+import { ApiTags } from '../../src';
 
 /**
  * controller comment
  * @licence MPL-2.0
  */
 @Route('/admin')
+@ApiTags('admin')
 export class ExampleController {
     /**
      * get the list of foo elements
@@ -28,6 +30,7 @@ export class ExampleController {
 
     @Delete('/delete')
     @ApiBearerAuth()
+    @ApiTags('special')
     public deleteFromFooList(req, res): void {
         return;
     }

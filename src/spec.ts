@@ -24,6 +24,16 @@ export default class Spec {
         return paths;
     }
 
+    private static getTagsFromDecorators(decs: BuiltDecorator[]): string[] {
+        const tags: string[] = [];
+        decs.forEach((dec) => {
+            if (dec.name && ['ApiTags'].includes(dec.name)) {
+                tags.push(...Object.values(dec.args));
+            }
+        });
+        return tags;
+    }
+
     private static getMethodsFromDecorators(
         decs: BuiltDecorator[],
         controllerRoute: string,
@@ -48,10 +58,10 @@ export default class Spec {
     public static buildSpecFromCollectedMeta(fileMetas: FileMetadata[], document: DocumentBuilder): OpenAPIObject {
         const oa = document.build() as OpenAPIObject;
 
-        const registerMethod = (method: ControllerMethod, controller?: ControllerClass) => {
-            const controllerRoutes: string[] = controller
-                ? this.getRouteFromDecorators(controller.decorators, '/')
-                : [''];
+        const registerMethod = (method: ControllerMethod, controller: ControllerClass) => {
+            const controllerRoutes: string[] = Spec.getRouteFromDecorators(controller.decorators, '/');
+            const controllerTags: string[] = Spec.getTagsFromDecorators(controller.decorators);
+            const methodTags: string[] = Spec.getTagsFromDecorators(method.decorators);
             controllerRoutes.forEach((controllerRoute) => {
                 const methodRoutes = this.getMethodsFromDecorators(
                     method.decorators,
@@ -63,6 +73,7 @@ export default class Spec {
                         oa.paths[methodRoute.path] = {
                             ...oa.paths[methodRoute.path],
                             [methodRoute.method]: {
+                                tags: controllerTags.concat(methodTags),
                                 responses: {},
                                 summary: method.documentation,
                                 description: method.documentation,
@@ -71,6 +82,7 @@ export default class Spec {
                     } else {
                         oa.paths[methodRoute.path] = {
                             [methodRoute.method]: {
+                                tags: controllerTags.concat(methodTags),
                                 responses: {},
                                 summary: method.documentation,
                                 description: method.documentation,

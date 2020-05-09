@@ -21,6 +21,12 @@ export default () => {
                                     0: '/admin',
                                 },
                             },
+                            {
+                                name: 'ApiTags',
+                                args: {
+                                    0: 'admin',
+                                },
+                            },
                         ],
                         documentation: 'controller comment',
                         methods: [
@@ -66,6 +72,12 @@ export default () => {
                                     },
                                     {
                                         name: 'ApiBearerAuth',
+                                    },
+                                    {
+                                        name: 'ApiTags',
+                                        args: {
+                                            0: 'special',
+                                        },
                                     },
                                 ],
                             },
@@ -135,6 +147,7 @@ export default () => {
                             responses: {},
                             description: '',
                             summary: '',
+                            tags: ['admin'],
                         },
                     },
                     '/admin/patch': {
@@ -142,6 +155,7 @@ export default () => {
                             responses: {},
                             description: '',
                             summary: '',
+                            tags: ['admin'],
                         },
                     },
                     '/admin/delete': {
@@ -149,11 +163,13 @@ export default () => {
                             description: '',
                             responses: {},
                             summary: '',
+                            tags: ['admin'],
                         },
                         delete: {
                             responses: {},
                             description: '',
                             summary: '',
+                            tags: ['admin', 'special'],
                         },
                     },
                     '/admin/list': {
@@ -161,6 +177,7 @@ export default () => {
                             responses: {},
                             description: 'get the list of foo elements',
                             summary: 'get the list of foo elements',
+                            tags: ['admin'],
                         },
                     },
                     '/admin/legacy/delete': {
@@ -168,11 +185,13 @@ export default () => {
                             description: '',
                             responses: {},
                             summary: '',
+                            tags: ['admin'],
                         },
                         post: {
                             description: '',
                             responses: {},
                             summary: '',
+                            tags: ['admin'],
                         },
                     },
                     '/admin/v1/legacy/delete': {
@@ -180,6 +199,7 @@ export default () => {
                             description: '',
                             responses: {},
                             summary: '',
+                            tags: ['admin'],
                         },
                     },
                 },

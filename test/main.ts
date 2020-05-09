@@ -21,6 +21,7 @@ export default () => {
                             responses: {},
                             description: '',
                             summary: '',
+                            tags: ['admin'],
                         },
                     },
                     '/admin/patch': {
@@ -28,6 +29,7 @@ export default () => {
                             responses: {},
                             description: '',
                             summary: '',
+                            tags: ['admin'],
                         },
                     },
                     '/admin/delete': {
@@ -35,11 +37,13 @@ export default () => {
                             responses: {},
                             description: '',
                             summary: '',
+                            tags: ['admin'],
                         },
                         delete: {
                             responses: {},
                             description: '',
                             summary: '',
+                            tags: ['admin', 'special'],
                         },
                     },
                     '/admin/list': {
@@ -47,6 +51,7 @@ export default () => {
                             responses: {},
                             description: 'get the list of foo elements',
                             summary: 'get the list of foo elements',
+                            tags: ['admin'],
                         },
                     },
                     '/dev/tools': {
@@ -54,6 +59,7 @@ export default () => {
                             description: 'get the list of dev tools',
                             responses: {},
                             summary: 'get the list of dev tools',
+                            tags: [],
                         },
                     },
                     '/admin/legacy/delete': {
@@ -61,11 +67,13 @@ export default () => {
                             description: '',
                             responses: {},
                             summary: '',
+                            tags: ['admin'],
                         },
                         post: {
                             description: '',
                             responses: {},
                             summary: '',
+                            tags: ['admin'],
                         },
                     },
                     '/admin/v1/legacy/delete': {
@@ -73,6 +81,7 @@ export default () => {
                             description: '',
                             responses: {},
                             summary: '',
+                            tags: ['admin'],
                         },
                     },
                 },
