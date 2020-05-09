@@ -69,8 +69,8 @@ export default class Spec {
                 });
             });
         };
+        oa.paths = {};
         fileMetas.forEach((fileMeta) => {
-            oa.paths = {};
             fileMeta.controllers.forEach((controller) => {
                 controller.methods.forEach((method) => registerMethod(method, controller));
             });
