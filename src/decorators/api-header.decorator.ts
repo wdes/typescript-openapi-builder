@@ -15,10 +15,10 @@ const defaultHeaderOptions: Partial<ApiHeaderOptions> = {
     name: '',
 };
 
-export function ApiHeader(options: ApiHeaderOptions): void {
-    return;
+export function ApiHeader(options: ApiHeaderOptions): MethodDecorator {
+    return () => {};
 }
 
-export const ApiHeaders = (headers: ApiHeaderOptions[]): void => {
-    return;
+export const ApiHeaders = (headers: ApiHeaderOptions[]): MethodDecorator => {
+    return () => {};
 };

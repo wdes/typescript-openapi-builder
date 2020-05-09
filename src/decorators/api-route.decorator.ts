@@ -1,4 +1,4 @@
 interface RoutePath extends String {}
-export function Route(path: string): RoutePath {
-    return path;
+export function Route(path: string): ClassDecorator {
+    return () => {};
 }
