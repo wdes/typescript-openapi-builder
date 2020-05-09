@@ -13,7 +13,8 @@
         "build": "tsc",
         "prettier": "prettier --ignore-path ./.prettierignore --write \"*/**/*.ts\"",
         "test": "NODE_ENV=test nyc --all mocha --require ts-node/register --require source-map-support/register --ui tdd test/index.ts",
-        "report-coverage": "nyc report --reporter=text-lcov > coverage.lcov"
+        "report-coverage": "nyc report --reporter=text-lcov > coverage.lcov",
+        "prepublish": "rm -rf dist && yarn run build"
     },
     "license": "MPL-2.0",
     "private": false,
