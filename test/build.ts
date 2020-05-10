@@ -161,7 +161,7 @@ export default () => {
                 ],
             };
             expect(metaFiles).to.deep.equal([fileMeta]);
-        });
+        }).timeout(5000);
         test('Test build spec', () => {
             const metas = Builders.buildMetaForFiles([fileToScan]);
             const document = new DocumentBuilder();
@@ -270,6 +270,6 @@ export default () => {
                 tags: [],
             };
             expect(Spec.buildSpecFromCollectedMeta(metas, document)).to.deep.equal(oa);
-        });
+        }).timeout(5000);
     });
 };
