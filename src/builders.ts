@@ -1,6 +1,6 @@
 import * as ts from 'typescript';
 export interface DecoratorArguments {
-    [nbr: number]: DecoratorObjectArgument | string;
+    [nbr: number]: DecoratorObjectArgument | string | string[];
 }
 
 export interface DecoratorObjectArgument {
@@ -81,6 +81,16 @@ export default class Builders {
                 properties[i] = emptyObj;
             } else if (arg.kind === ts.SyntaxKind.StringLiteral) {
                 properties[i] = (arg as ts.StringLiteral).text;
+            } else if (arg.kind === ts.SyntaxKind.ArrayLiteralExpression) {
+                const propValue = arg as ts.ArrayLiteralExpression;
+                const values: string[] = [];
+                propValue.elements.forEach(element => {
+                    if (element.kind === ts.SyntaxKind.StringLiteral) {
+                        const propValue = element as ts.StringLiteral;
+                        values.push(propValue.text);
+                    }
+                });
+                properties[i] = values;
             }
         });
         return properties;
