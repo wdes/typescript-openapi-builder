@@ -1,8 +1,60 @@
-import { Post, Get, Delete, Patch } from '../../src/decorators/api-methods.decorator';
+import { Post, Get, Delete, Patch, Put } from '../../src/decorators/api-methods.decorator';
 import { Route } from '../../src/decorators/api-route.decorator';
 import { ApiHeader } from '../../src/decorators/api-header.decorator';
 import { ApiBearerAuth } from '../../src/decorators/api-bearer.decorator';
-import { ApiTags, ApiSecurity, ApiOperation } from '../../src';
+import { ApiResponse } from '../../src/decorators/api-response.decorator';
+import { ApiOperation } from '../../src/decorators/api-operation.decorator';
+import { ApiTags } from '../../src/decorators/api-use-tags.decorator';
+import { ApiSecurity } from '../../src/decorators/api-security.decorator';
+
+export interface CustomResponse {
+    bool: boolean;
+    bool2: true;
+    bool3: false;
+    bool4?: false;
+    string1: 'astring';
+    string2: string;
+    string3?: string;
+    num: number;
+    num2: Number;
+    num3?: number;
+    num4?: 2;
+    itself: CustomResponse;
+    itself2?: CustomResponse;
+    obj: {
+        _bool: boolean;
+        _bool2: true;
+        _bool3: false;
+        _bool4?: false;
+        _string1: 'astring';
+        _string2: string;
+        _string3?: string;
+        obj: {
+            __bool: boolean;
+            __bool2: true;
+            __bool3: false;
+            __bool4?: false;
+            __string1: 'astring';
+            __string2: string;
+            __string3?: string;
+        };
+    };
+    obj2: {};
+    obj3: {
+        ___v1: 1;
+    };
+}
+
+export interface CustomError {
+    num: number;
+    message: string;
+}
+
+namespace express {
+    export interface Request {}
+
+    export interface Response<T> {}
+}
 
 /**
  * controller comment
@@ -24,7 +76,10 @@ export class ExampleController {
         operationId: 'getFooList',
         deprecated: true,
     })
-    public getFooList(req, res): void {
+    public getFooList(
+        req: express.Request,
+        @ApiResponse() res: express.Response<CustomResponse | {} | boolean | void | CustomError>
+    ): void {
         return;
     }
 
