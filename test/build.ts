@@ -3,6 +3,7 @@ import Builders, { FileMetadata } from '../src/builders';
 import Spec from '../src/spec';
 import { OpenAPIObject } from '../src/interfaces';
 import { DocumentBuilder } from '../src/scan/document-builder';
+import { SecurityRequirementObject } from '../src/interfaces/open-api-spec.interface';
 
 export default () => {
     suite('test build', () => {
@@ -27,6 +28,13 @@ export default () => {
                                     0: 'admin',
                                 },
                             },
+                            {
+                                args: {
+                                    '0': 'token',
+                                    '1': ['admin'],
+                                },
+                                name: 'ApiSecurity',
+                            },
                         ],
                         documentation: 'controller comment',
                         methods: [
@@ -46,6 +54,15 @@ export default () => {
                                             0: { description: 'The is cool header', name: 'Is-Cool' },
                                         },
                                     },
+                                    {
+                                        args: {
+                                            '0': {
+                                                deprecated: true,
+                                                operationId: 'getFooList',
+                                            },
+                                        },
+                                        name: 'ApiOperation',
+                                    },
                                 ],
                             },
                             {
@@ -57,6 +74,13 @@ export default () => {
                                         args: {
                                             0: '/add',
                                         },
+                                    },
+                                    {
+                                        args: {
+                                            '0': 'jwt',
+                                            '1': ['admin'],
+                                        },
+                                        name: 'ApiSecurity',
                                     },
                                 ],
                             },
@@ -124,6 +148,12 @@ export default () => {
                                     {
                                         name: 'Patch',
                                     },
+                                    {
+                                        args: {
+                                            '0': 'apitoken',
+                                        },
+                                        name: 'ApiSecurity',
+                                    },
                                 ],
                             },
                         ],
@@ -148,6 +178,10 @@ export default () => {
                             description: '',
                             summary: '',
                             tags: ['admin'],
+                            security: [
+                                { token: ['admin'] } as SecurityRequirementObject,
+                                { jwt: ['admin'] } as SecurityRequirementObject,
+                            ],
                         },
                     },
                     '/admin/patch': {
@@ -156,6 +190,10 @@ export default () => {
                             description: '',
                             summary: '',
                             tags: ['admin'],
+                            security: [
+                                { token: ['admin'] } as SecurityRequirementObject,
+                                { apitoken: [] } as SecurityRequirementObject,
+                            ],
                         },
                     },
                     '/admin/delete': {
@@ -164,20 +202,25 @@ export default () => {
                             responses: {},
                             summary: '',
                             tags: ['admin'],
+                            security: [{ token: ['admin'] } as SecurityRequirementObject],
                         },
                         delete: {
                             responses: {},
                             description: '',
                             summary: '',
                             tags: ['admin', 'special'],
+                            security: [{ token: ['admin'] } as SecurityRequirementObject],
                         },
                     },
                     '/admin/list': {
                         get: {
                             responses: {},
+                            deprecated: true,
                             description: 'get the list of foo elements',
                             summary: 'get the list of foo elements',
+                            operationId: 'getFooList',
                             tags: ['admin'],
+                            security: [{ token: ['admin'] } as SecurityRequirementObject],
                         },
                     },
                     '/admin/legacy/delete': {
@@ -186,12 +229,14 @@ export default () => {
                             responses: {},
                             summary: '',
                             tags: ['admin'],
+                            security: [{ token: ['admin'] } as SecurityRequirementObject],
                         },
                         post: {
                             description: '',
                             responses: {},
                             summary: '',
                             tags: ['admin'],
+                            security: [{ token: ['admin'] } as SecurityRequirementObject],
                         },
                     },
                     '/admin/v1/legacy/delete': {
@@ -200,6 +245,7 @@ export default () => {
                             responses: {},
                             summary: '',
                             tags: ['admin'],
+                            security: [{ token: ['admin'] } as SecurityRequirementObject],
                         },
                     },
                 },

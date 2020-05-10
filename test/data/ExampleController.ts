@@ -54,6 +54,7 @@ export class ExampleController {
     }
 
     @Patch()
+    @ApiSecurity('apitoken')
     public patch(req, res): void {
         return;
     }

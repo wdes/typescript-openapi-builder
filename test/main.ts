@@ -2,6 +2,7 @@ import { expect } from 'chai';
 import { TypeScriptOpenAPIBuilder } from '../src/index';
 import { OpenAPIObject } from '../src/interfaces';
 import { DocumentBuilder } from '../src/scan/document-builder';
+import { SecurityRequirementObject } from '../src/interfaces/open-api-spec.interface';
 
 export default () => {
     suite('test main', () => {
@@ -22,6 +23,10 @@ export default () => {
                             description: '',
                             summary: '',
                             tags: ['admin'],
+                            security: [
+                                { token: ['admin'] } as SecurityRequirementObject,
+                                { jwt: ['admin'] } as SecurityRequirementObject,
+                            ],
                         },
                     },
                     '/admin/patch': {
@@ -30,6 +35,10 @@ export default () => {
                             description: '',
                             summary: '',
                             tags: ['admin'],
+                            security: [
+                                { token: ['admin'] } as SecurityRequirementObject,
+                                { apitoken: [] } as SecurityRequirementObject,
+                            ],
                         },
                     },
                     '/admin/delete': {
@@ -38,20 +47,25 @@ export default () => {
                             description: '',
                             summary: '',
                             tags: ['admin'],
+                            security: [{ token: ['admin'] } as SecurityRequirementObject],
                         },
                         delete: {
                             responses: {},
                             description: '',
                             summary: '',
                             tags: ['admin', 'special'],
+                            security: [{ token: ['admin'] } as SecurityRequirementObject],
                         },
                     },
                     '/admin/list': {
                         get: {
                             responses: {},
+                            deprecated: true,
                             description: 'get the list of foo elements',
                             summary: 'get the list of foo elements',
+                            operationId: 'getFooList',
                             tags: ['admin'],
+                            security: [{ token: ['admin'] } as SecurityRequirementObject],
                         },
                     },
                     '/dev/tools': {
@@ -60,6 +74,7 @@ export default () => {
                             responses: {},
                             summary: 'get the list of dev tools',
                             tags: [],
+                            security: [],
                         },
                     },
                     '/admin/legacy/delete': {
@@ -68,12 +83,14 @@ export default () => {
                             responses: {},
                             summary: '',
                             tags: ['admin'],
+                            security: [{ token: ['admin'] } as SecurityRequirementObject],
                         },
                         post: {
                             description: '',
                             responses: {},
                             summary: '',
                             tags: ['admin'],
+                            security: [{ token: ['admin'] } as SecurityRequirementObject],
                         },
                     },
                     '/admin/v1/legacy/delete': {
@@ -82,6 +99,7 @@ export default () => {
                             responses: {},
                             summary: '',
                             tags: ['admin'],
+                            security: [{ token: ['admin'] } as SecurityRequirementObject],
                         },
                     },
                 },
