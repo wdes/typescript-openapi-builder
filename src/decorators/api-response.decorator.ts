@@ -22,8 +22,8 @@ export interface ApiResponseSchemaHost extends Omit<ResponseObject, 'description
 
 export type ApiResponseOptions = ApiResponseMetadata | ApiResponseSchemaHost;
 
-export function ApiResponse(options: ApiResponseOptions): ApiResponseOptions {
-    return options;
+export function ApiResponse(options?: ApiResponseOptions): ParameterDecorator {
+    return () => {};
 }
 
 export const ApiOkResponse = (options: ApiResponseOptions = {}) =>
