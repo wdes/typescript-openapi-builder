@@ -11,6 +11,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Remove an invalid implementation for decorators on Functions
 - Support tags using ApiTags
 - Fix import from main script
+- Implement ApiOperation
+- Implement ApiSecurity
 
 ## [v0.0.3]
 
