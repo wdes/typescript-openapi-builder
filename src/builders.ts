@@ -84,7 +84,7 @@ export default class Builders {
             } else if (arg.kind === ts.SyntaxKind.ArrayLiteralExpression) {
                 const propValue = arg as ts.ArrayLiteralExpression;
                 const values: string[] = [];
-                propValue.elements.forEach(element => {
+                propValue.elements.forEach((element) => {
                     if (element.kind === ts.SyntaxKind.StringLiteral) {
                         const propValue = element as ts.StringLiteral;
                         values.push(propValue.text);

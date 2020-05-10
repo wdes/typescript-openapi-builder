@@ -2,6 +2,7 @@ import { FileMetadata, BuiltDecorator, ControllerMethod, ControllerClass } from 
 import { OpenAPIObject } from './interfaces';
 import { DocumentBuilder } from './scan/document-builder';
 import { ApiOperationOptions } from './decorators';
+import { SecurityRequirementObject } from './interfaces/open-api-spec.interface';
 
 const methodNames = ['Get', 'Post', 'Patch', 'Put', 'Delete', 'Head'];
 
@@ -45,16 +46,16 @@ export default class Spec {
         return options;
     }
 
-    private static getSecurityFromDecorators(decs: BuiltDecorator[]): [string, string[]][] {
-        const tags: [string, string[]][] = [];
+    private static getSecurityFromDecorators(decs: BuiltDecorator[]): SecurityRequirementObject[] {
+        const security: SecurityRequirementObject[] = [];
         decs.forEach((dec) => {
             if (dec.name && ['ApiSecurity'].includes(dec.name)) {
-                const reqs: string[] = Object.values(dec.args).slice(1);
-                const obj: [string, string[]] = [(dec.args as any)['0'], [...reqs]];
-                tags.push(obj);
+                const reqs: string[] = (Object.values(dec.args).slice(1) as any)['0'] || [];
+                const obj: SecurityRequirementObject = { [(dec.args as any)['0']]: reqs };
+                security.push(obj);
             }
         });
-        return tags;
+        return security;
     }
 
     private static getMethodsFromDecorators(
