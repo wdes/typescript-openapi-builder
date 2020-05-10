@@ -4,7 +4,7 @@ export interface DecoratorArguments {
 }
 
 export interface DecoratorObjectArgument {
-    [key: string]: string;
+    [key: string]: string | boolean;
 }
 
 export interface BuiltDecorator {
@@ -69,6 +69,10 @@ export default class Builders {
                             if (prop.initializer.kind === ts.SyntaxKind.StringLiteral) {
                                 const propValue = prop.initializer as ts.StringLiteral;
                                 acc[propName.text] = propValue.text;
+                            } else if (prop.initializer.kind === ts.SyntaxKind.TrueKeyword) {
+                                acc[propName.text] = true;
+                            } else if (prop.initializer.kind === ts.SyntaxKind.FalseKeyword) {
+                                acc[propName.text] = false;
                             }
                         }
                         return acc;
