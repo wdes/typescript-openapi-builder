@@ -5,6 +5,7 @@
       "declaration": true,
       "noImplicitAny": true,
       "removeComments": true,
+      "experimentalDecorators": true,
       "sourceMap": false,
       "noLib": false,
       "outDir": "./dist",
