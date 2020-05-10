@@ -2,7 +2,7 @@ import { Post, Get, Delete, Patch } from '../../src/decorators/api-methods.decor
 import { Route } from '../../src/decorators/api-route.decorator';
 import { ApiHeader } from '../../src/decorators/api-header.decorator';
 import { ApiBearerAuth } from '../../src/decorators/api-bearer.decorator';
-import { ApiTags, ApiSecurity } from '../../src';
+import { ApiTags, ApiSecurity, ApiOperation } from '../../src';
 
 /**
  * controller comment
@@ -19,6 +19,10 @@ export class ExampleController {
     @ApiHeader({
         name: 'Is-Cool',
         description: 'The is cool header',
+    })
+    @ApiOperation({
+        operationId: 'getFooList',
+        deprecated: true,
     })
     public getFooList(req, res): void {
         return;
