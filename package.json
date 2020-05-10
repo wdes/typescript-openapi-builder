@@ -19,6 +19,7 @@
     "license": "MPL-2.0",
     "private": false,
     "dependencies": {
+        "typescript-json-schema": "^0.42.0"
     },
     "devDependencies": {
         "@types/chai": "^4.2.11",
