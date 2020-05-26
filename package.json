@@ -1,6 +1,6 @@
 {
     "name": "typescript-openapi-builder",
-    "version": "0.0.3",
+    "version": "0.0.4",
     "description": "Generate OpenAPI spec using TypeScript annotations",
     "main": "dist/index.js",
     "repository": "https://github.com/wdes/typescript-openapi-builder.git",
