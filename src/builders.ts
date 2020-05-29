@@ -1,4 +1,5 @@
 import * as ts from 'typescript';
+import * as TJS from 'typescript-json-schema';
 export interface DecoratorArguments {
     [nbr: number]: DecoratorObjectArgument | string | string[];
 }
@@ -119,6 +120,7 @@ export default class Builders {
         };
         let analysedFiles: FileMetadata[] = [];
         fileNames.forEach((fileToScan: string) => {
+            //this.buildJsonSchema(fileToScan);
             const sourceFile = program.getSourceFile(fileToScan);
             const fileMeta: FileMetadata = {
                 fileName: fileToScan,
@@ -166,5 +168,21 @@ export default class Builders {
             return ts.displayPartsToString(symbol.getDocumentationComment(checker));
         }
         return '';
+    }
+
+    public static buildJsonSchema(fileNames: string) {
+        const settings: TJS.PartialArgs = {
+            uniqueNames: true,
+        };
+        const compilerOptions: TJS.CompilerOptions = {
+            strictNullChecks: true,
+        };
+        const program = TJS.getProgramFromFiles([fileNames], compilerOptions);
+        const generator = TJS.buildGenerator(program, settings, [fileNames]);
+        const symbols = generator.getUserSymbols();
+        console.log(symbols);
+        symbols.forEach((element) => {
+            generator.getSchemaForSymbol(element);
+        });
     }
 }
