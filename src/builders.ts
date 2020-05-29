@@ -170,19 +170,23 @@ export default class Builders {
         return '';
     }
 
-    public static buildJsonSchema(fileNames: string) {
+    public static buildJsonSchema(fileNames: string[]): TJS.Definition[] {
         const settings: TJS.PartialArgs = {
-            uniqueNames: true,
+            uniqueNames: false,
+            strictNullChecks: true,
+            noExtraProps: true,
+            required: true,
         };
         const compilerOptions: TJS.CompilerOptions = {
             strictNullChecks: true,
         };
-        const program = TJS.getProgramFromFiles([fileNames], compilerOptions);
-        const generator = TJS.buildGenerator(program, settings, [fileNames]);
+        const program = TJS.getProgramFromFiles(fileNames, compilerOptions);
+        const generator = TJS.buildGenerator(program, settings, fileNames);
         const symbols = generator.getUserSymbols();
-        console.log(symbols);
+        const schemas: TJS.Definition[] = [];
         symbols.forEach((element) => {
-            generator.getSchemaForSymbol(element);
+            schemas.push(generator.getSchemaForSymbol(element));
         });
+        return schemas;
     }
 }
