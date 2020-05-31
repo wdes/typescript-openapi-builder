@@ -12,7 +12,8 @@
     "scripts": {
         "build": "tsc",
         "prettier": "prettier --ignore-path ./.prettierignore --write \"*/**/*.ts\"",
-        "test": "NODE_ENV=test nyc --all mocha --require ts-node/register --require source-map-support/register --ui tdd test/index.ts",
+        "tests": "mocha --require ts-node/register --require source-map-support/register --ui tdd test/index.ts",
+        "test": "NODE_ENV=test nyc --all yarn run -s tests",
         "report-coverage": "nyc report --reporter=text-lcov > coverage.lcov",
         "prepublish": "rm -rf dist && yarn run build"
     },
