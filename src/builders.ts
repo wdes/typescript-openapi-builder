@@ -14,9 +14,16 @@ export interface BuiltDecorator {
     args?: DecoratorArguments;
 }
 
+export interface BuiltParameter {
+    name: string;
+    types?: TJS.Definition[];
+    decorators?: BuiltDecorator[];
+}
+
 export interface ControllerMethod {
     name: string;
     documentation?: string;
+    parameters?: BuiltParameter[];
     decorators: BuiltDecorator[];
 }
 export interface ControllerClass {
@@ -32,28 +39,32 @@ export interface FileMetadata {
 }
 
 export default class Builders {
-    public static getDecorators(node: ts.Node, checker: ts.TypeChecker): BuiltDecorator[] {
+    public static getDecoratorsForNode(node: ts.Node, checker: ts.TypeChecker): BuiltDecorator[] {
         let builtDecorators: BuiltDecorator[] = [];
         if (!node.decorators) {
             return builtDecorators;
         }
         node.decorators.forEach((decorator) => {
-            const theDecorator: BuiltDecorator = {};
-            if (decorator.expression.kind === ts.SyntaxKind.CallExpression) {
-                const call = decorator.expression as ts.CallExpression;
-                //Builders.getTypeForNode(call, checker));
-                if (call.expression.kind === ts.SyntaxKind.Identifier) {
-                    const identifier = call.expression as ts.Identifier;
-                    theDecorator.name = identifier.text;
-                }
-                const props = Builders.extractObject(call, checker);
-                if (Object.keys(props).length > 0) {
-                    theDecorator.args = props;
-                }
-            }
-            builtDecorators.push(theDecorator);
+            builtDecorators.push(Builders.getBuiltDecoratorFromDecorator(decorator, checker));
         });
         return builtDecorators;
+    }
+
+    private static getBuiltDecoratorFromDecorator(decorator: ts.Decorator, checker: ts.TypeChecker): BuiltDecorator {
+        const theDecorator: BuiltDecorator = {};
+        if (decorator.expression.kind === ts.SyntaxKind.CallExpression) {
+            const call = decorator.expression as ts.CallExpression;
+
+            if (call.expression.kind === ts.SyntaxKind.Identifier) {
+                const identifier = call.expression as ts.Identifier;
+                theDecorator.name = identifier.text;
+            }
+            const props = Builders.extractObject(call, checker);
+            if (Object.keys(props).length > 0) {
+                theDecorator.args = props;
+            }
+        }
+        return theDecorator;
     }
 
     private static extractObject(call: ts.CallExpression, checker: ts.TypeChecker): DecoratorArguments {
@@ -119,6 +130,7 @@ export default class Builders {
             onSubstituteNode: (hint, node) => node,
         };
         let analysedFiles: FileMetadata[] = [];
+        const generator = Builders.buildGeneratorForFiles(fileNames);
         fileNames.forEach((fileToScan: string) => {
             //this.buildJsonSchema(fileToScan);
             const sourceFile = program.getSourceFile(fileToScan);
@@ -133,7 +145,7 @@ export default class Builders {
                         name: name ? (name as ts.Identifier).text : '',
                         documentation: Builders.getDocumentationForNode(node, checker),
                         methods: [],
-                        decorators: Builders.getDecorators(node, checker),
+                        decorators: Builders.getDecoratorsForNode(node, checker),
                     };
                     fileMeta.controllers.push(controller);
                     return ts.visitEachChild(node, (node) => visitNode(node, controller), context);
@@ -143,7 +155,8 @@ export default class Builders {
                     let method: ControllerMethod = {
                         name: name ? (name as ts.Identifier).text : '',
                         documentation: Builders.getDocumentationForNode(node, checker),
-                        decorators: Builders.getDecorators(node, checker),
+                        decorators: Builders.getDecoratorsForNode(node, checker),
+                        parameters: Builders.getMethodParameters(node, checker, generator),
                     };
                     controllerArg.methods.push(method);
                 }
@@ -153,6 +166,43 @@ export default class Builders {
             analysedFiles.push(fileMeta);
         });
         return analysedFiles;
+    }
+
+    public static getMethodParameters(
+        method: ts.MethodDeclaration,
+        checker: ts.TypeChecker,
+        generator: TJS.JsonSchemaGenerator
+    ): BuiltParameter[] {
+        let builtParameters: BuiltParameter[] = [];
+
+        if (method.parameters) {
+            method.parameters.forEach((param) => {
+                const parameter: BuiltParameter = {
+                    name: (param.name as ts.Identifier).text,
+                };
+                if (param.decorators) {
+                    parameter.decorators = Builders.getDecoratorsForNode(param, checker);
+                }
+                if (param.type) {
+                    parameter.types = [];
+
+                    const tt = checker.getTypeAtLocation(param.type);
+                    const typeArgs = checker.getTypeArguments(tt as ts.TypeReference);
+                    typeArgs.forEach((arg) => {
+                        const uoI = arg as ts.UnionOrIntersectionType;
+                        uoI.types.forEach((ty) => {
+                            if (ty.symbol && ty.symbol.escapedName && ty.symbol.members && ty.symbol.members.size > 0) {
+                                const json = generator.getSchemaForSymbol(ty.symbol.getName());
+                                parameter.types.push(json);
+                            }
+                        });
+                    });
+                }
+                builtParameters.push(parameter);
+            });
+        }
+
+        return builtParameters;
     }
 
     private static getTypeForNode(node: ts.Decorator | ts.CallExpression, checker: ts.TypeChecker): string {
@@ -171,6 +221,16 @@ export default class Builders {
     }
 
     public static buildJsonSchema(fileNames: string[]): TJS.Definition[] {
+        const generator = Builders.buildGeneratorForFiles(fileNames);
+        const symbols = generator.getUserSymbols();
+        const schemas: TJS.Definition[] = [];
+        symbols.forEach((element) => {
+            schemas.push(generator.getSchemaForSymbol(element));
+        });
+        return schemas;
+    }
+
+    public static buildGeneratorForFiles(fileNames: string[]): TJS.JsonSchemaGenerator {
         const settings: TJS.PartialArgs = {
             uniqueNames: false,
             strictNullChecks: true,
@@ -181,12 +241,6 @@ export default class Builders {
             strictNullChecks: true,
         };
         const program = TJS.getProgramFromFiles(fileNames, compilerOptions);
-        const generator = TJS.buildGenerator(program, settings, fileNames);
-        const symbols = generator.getUserSymbols();
-        const schemas: TJS.Definition[] = [];
-        symbols.forEach((element) => {
-            schemas.push(generator.getSchemaForSymbol(element));
-        });
-        return schemas;
+        return TJS.buildGenerator(program, settings, fileNames);
     }
 }
