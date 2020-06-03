@@ -126,6 +126,8 @@ export default () => {
             expect(spec).to.deep.equal(oa);
             const specJson = TypeScriptOpenAPIBuilder.buildJsonSpec(document, dirToScan, /.*\.ts$/);
             expect(JSON.parse(specJson)).to.deep.equal(oa);
-        }).timeout(5000);
+        })
+            .timeout(10000)
+            .slow(5000);
     });
 };

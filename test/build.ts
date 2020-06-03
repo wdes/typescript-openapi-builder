@@ -218,7 +218,9 @@ export default () => {
                 ],
             };
             expect(metaFiles).to.deep.equal([fileMeta]);
-        }).timeout(5000);
+        })
+            .timeout(10000)
+            .slow(5000);
         test('Test build spec', () => {
             const metas = Builders.buildMetaForFiles([fileToScan]);
             const document = new DocumentBuilder();
@@ -327,10 +329,14 @@ export default () => {
                 tags: [],
             };
             expect(Spec.buildSpecFromCollectedMeta(metas, document)).to.deep.equal(oa);
-        }).timeout(5000);
+        })
+            .timeout(10000)
+            .slow(5000);
         test('Test that the schema is extracted from the spec', () => {
             const schemas = Builders.buildJsonSchema(fileTypesToScan);
             expect(schemas).to.deep.equal(CustomTypesSchema);
-        }).timeout(5000);
+        })
+            .timeout(3000)
+            .slow(2000);
     });
 };
