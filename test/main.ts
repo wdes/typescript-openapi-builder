@@ -3,6 +3,7 @@ import { TypeScriptOpenAPIBuilder } from '../src/index';
 import { OpenAPIObject } from '../src/interfaces';
 import { DocumentBuilder } from '../src/scan/document-builder';
 import { SecurityRequirementObject } from '../src/interfaces/open-api-spec.interface';
+import { suite } from 'mocha';
 
 export default () => {
     suite('test main', () => {

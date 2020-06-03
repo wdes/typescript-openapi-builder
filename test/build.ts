@@ -1,4 +1,5 @@
 import { expect } from 'chai';
+import { suite, test } from 'mocha';
 import Builders, { FileMetadata } from '../src/builders';
 import Spec from '../src/spec';
 import { OpenAPIObject } from '../src/interfaces';
