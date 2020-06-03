@@ -43,6 +43,21 @@ export default () => {
                             {
                                 name: 'getFooList',
                                 documentation: 'get the list of foo elements',
+                                parameters: [
+                                    {
+                                        name: 'req',
+                                        types: [],
+                                    },
+                                    {
+                                        name: 'res',
+                                        types: CustomTypesSchema,
+                                        decorators: [
+                                            {
+                                                name: 'ApiResponse',
+                                            },
+                                        ],
+                                    },
+                                ],
                                 decorators: [
                                     {
                                         name: 'Get',
@@ -70,6 +85,14 @@ export default () => {
                             {
                                 name: 'addToFooList',
                                 documentation: '',
+                                parameters: [
+                                    {
+                                        name: 'req',
+                                    },
+                                    {
+                                        name: 'res',
+                                    },
+                                ],
                                 decorators: [
                                     {
                                         name: 'Post',
@@ -89,6 +112,14 @@ export default () => {
                             {
                                 name: 'deleteFromFooList',
                                 documentation: '',
+                                parameters: [
+                                    {
+                                        name: 'req',
+                                    },
+                                    {
+                                        name: 'res',
+                                    },
+                                ],
                                 decorators: [
                                     {
                                         name: 'Delete',
@@ -110,6 +141,14 @@ export default () => {
                             {
                                 name: 'alsoAPutMethod',
                                 documentation: '',
+                                parameters: [
+                                    {
+                                        name: 'req',
+                                    },
+                                    {
+                                        name: 'res',
+                                    },
+                                ],
                                 decorators: [
                                     {
                                         name: 'Put',
@@ -122,6 +161,14 @@ export default () => {
                             {
                                 name: 'complicatedRoute',
                                 documentation: '',
+                                parameters: [
+                                    {
+                                        name: 'req',
+                                    },
+                                    {
+                                        name: 'res',
+                                    },
+                                ],
                                 decorators: [
                                     {
                                         name: 'Delete',
@@ -146,6 +193,14 @@ export default () => {
                             {
                                 name: 'patch',
                                 documentation: '',
+                                parameters: [
+                                    {
+                                        name: 'req',
+                                    },
+                                    {
+                                        name: 'res',
+                                    },
+                                ],
                                 decorators: [
                                     {
                                         name: 'Patch',
