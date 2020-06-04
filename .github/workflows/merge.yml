@@ -12,6 +12,6 @@ jobs:
               with:
                   github-token: ${{ secrets.WDES_BOT_TOKEN }}
                   number: ${{ github.event.pull_request.number }}
-                  allowed-usernames-regex: ^williamdes$
+                  allowed-usernames-regex: ^williamdes|Guileas$
                   filter-label: merge-it
                   merge-method: fast-forward
